@@ -1,0 +1,97 @@
+.donationTop {
+    margin-bottom: 10px;
+}
+.donationTop h3 {
+    color: #464646;
+    font-family: "Kanit", sans-serif !important;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-bottom: 5px;
+}
+.donationTop p {
+    color: #464646;
+    font-family: "Kanit", sans-serif !important;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 18px;
+}
+
+.sortByBox.otherAmount a {
+    background: #c8ebc0;
+}
+.gratuitySelect {
+    margin: 10px 0;
+}
+.gratuitySelect h4 {
+    color: #464646;
+    font-family: "Kanit", sans-serif !important;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+.gratuitySelect ul li .selectOption {
+    border-radius: 12px;
+    border: 0.5px solid #60bc40;
+    background: #fff;
+    padding: 0 15px;
+}
+
+.gratuitySelect ul li:not(:last-child) {
+    margin-right: 10px;
+}
+
+.gratuitySelect ul li {
+    color: #464646;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+}
+.catInput .selectOption {
+    border-radius: 6px;
+    border: 0.5px solid #60bc40;
+    background: #fff;
+    padding: 0 0 0 15px;
+    height: 20px;
+}
+
+ion-button.payWithPapal {
+    --background: #464646;
+    --background-hover: #caf7e1;
+    --background-activated: #caf7e1;
+    --background-focused: #caf7e1;
+    box-shadow: none;
+    --color: #fff;
+    --border-radius: 10px;
+    --ripple-color: #141313;
+}
+
+ion-button.payWithCard {
+    --background: #60bc40;
+    --background-hover: #caf7e1;
+    --background-activated: #caf7e1;
+    --background-focused: #caf7e1;
+    box-shadow: none;
+    --color: #fff;
+    --border-radius: 10px;
+    --ripple-color: #296315;
+    font-size: 10px;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+.catagorieListing ion-checkbox {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.catagorieListing .inputArea {
+    margin-bottom: 11px;
+    position: relative;
+}
+.PhoneInputInput{
+    height: 40px;
+}

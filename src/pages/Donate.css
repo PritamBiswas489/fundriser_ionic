@@ -1,0 +1,40 @@
+.donatePage {
+    background: #f9fff8;
+    min-height: 100%;
+    padding: 0 20px 40px;
+}
+
+.createNews h6 {
+    color: #464646;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 18px;
+    font-family: "Kanit", sans-serif;
+}
+
+.donateTabs .react-tabs__tab-list {
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+}
+.donateTabs .react-tabs__tab {
+    color: #464646;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px; /* 138.462% */
+    position: relative;
+    border: none;
+    border-bottom: transparent 2px solid;
+    outline: none !important;
+    padding: 6px 0;
+    font-family: "Kanit", sans-serif;
+}
+.donateTabs .react-tabs__tab--selected {
+    background-color: transparent;
+    color: #5ab843;
+    border-radius: 0;
+    border-bottom-color: #5ab843;
+}
+.donateNow {
+    margin-top: 20px;
+}

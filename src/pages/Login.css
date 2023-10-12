@@ -1,0 +1,113 @@
+.loginLogo {
+    padding: 5rem 4rem;
+    background: linear-gradient(180deg, #249c63 0%, #62bd3f 100%);
+}
+
+.loginLogo span {
+    display: block;
+    margin: 0 auto;
+}
+
+.loginArea {
+    background: #f9fff8;
+    /* background: #4a6645; */
+    height: 100%;
+    width: 100%;
+    /* padding: 60px 0 0; */
+    position: relative;
+}
+
+.loginInner {
+    padding: 50px 25px 10px;
+}
+
+.loginInner h2 {
+    text-align: center;
+    color: #60bc40;
+    font-family: "Kanit", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+.inputArea {
+    margin-bottom: 20px;
+    position: relative;
+}
+.or {
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 12px;
+    color: #464646;
+    text-transform: uppercase;
+    font-family: "Kanit", sans-serif;
+}
+.logIcon {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    color: #60bc40;
+    font-size: 21px;
+    z-index: 3;
+}
+.logIcon svg {
+    display: block;
+}
+ion-input.loginInput {
+    --background: #fff;
+    --color: #fff;
+    --placeholder-color: #c4c4c4;
+    --placeholder-opacity: 1;
+
+    border: 0.5px solid #60bc40;
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 1;
+
+    --padding-bottom: 9px;
+    --padding-end: 10px;
+    --padding-start: 40px;
+    --padding-top: 9px;
+    font-family: "Kanit", sans-serif;
+    min-height: 40px !important;
+}
+
+ion-button.conFb {
+    --background: none;
+    --background-hover: #caf7e1;
+    --background-activated: #caf7e1;
+    --background-focused: #caf7e1;
+    --box-shadow: 0px 0px 4px 0px rgba(96, 188, 64, 0.47);
+
+    --color: #1976d2;
+
+    --border-radius: 10px;
+
+    --ripple-color: #88ceab;
+}
+
+.fbIcon {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+ion-checkbox {
+    --size: 20px;
+    --background-checked: #5ab843;
+    margin-inline-end: 9px;
+}
+
+ion-checkbox::part(container) {
+    border-radius: 3px;
+    border: 1px solid #5ab843;
+}
+.inputArea ion-item {
+    --ion-background-color: transparent;
+    --inner-border-width: 0px 0px 0 0px;
+    color: #333;
+    --background-activated: #000;
+    --background-focused: #000;
+    --padding-start: 0;
+    font-size: 12px;
+}

@@ -1,0 +1,59 @@
+.campaignerDetails {
+    padding: 15px 0;
+}
+.campDtlsLeft {
+    flex: 0 0 92px;
+}
+.campDtlsRight {
+    flex: 1 0 0%;
+    padding-left: 15px;
+}
+.campDtlsRight h5 {
+    color: #60bc40;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 12px;
+    margin-bottom: 7px;
+    font-family: "Kanit", sans-serif;
+}
+.campDtlsRight ul li,
+.campDtlsRight ul li a {
+    color: #464646;
+    font-size: 11px;
+    line-height: 13px;
+    font-family: "Kanit", sans-serif;
+}
+.campDtlsRight ul li span {
+    display: inline-block;
+    width: 14px;
+    vertical-align: bottom;
+    margin-right: 4px;
+}
+.campDtlsRight ul li span svg {
+    display: block;
+    color: #5ab843;
+    font-size: 14px;
+}
+.campDtlsRight ul li:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.companyDetails h3 {
+    color: #464646;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 12px;
+    text-decoration-line: underline;
+    margin-bottom: 7px;
+    font-family: "Kanit", sans-serif;
+}
+.companyDetails ul li {
+    color: #464646;
+    font-size: 10px;
+    font-weight: 300;
+    margin-bottom: 5px;
+    font-family: "Kanit", sans-serif;
+}
+.companyDetails ul li span {
+    font-weight: 600;
+}

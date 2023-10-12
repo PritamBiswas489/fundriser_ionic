@@ -1,0 +1,155 @@
+.innerSrcArea {
+    padding: 1rem;
+    background: #f9fff8;
+    /* background: #4a6645; */
+    min-height: 100%;
+    width: 100%;
+}
+
+.innerSrc {
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0px 6px 14px 0px rgba(169, 211, 159, 0.35);
+    padding: 0 15px;
+}
+
+.innerSrc .ios.in-item {
+    padding-bottom: 0 !important;
+    padding-top: 0;
+}
+.innerSrcInput {
+    padding: 0 !important;
+    height: 40px;
+}
+.innerSrcInput .searchbar-input {
+    background-color: transparent !important;
+    padding: 0 10px 0 30px;
+    height: 40px;
+    box-shadow: none;
+    font-size: 12px;
+}
+.innerSrcInput ion-icon {
+    left: 0 !important;
+}
+
+.innerSrc .list-md {
+    padding: 0;
+}
+.donateArea {
+    margin: 10px 0;
+}
+.donateBox {
+    width: 100%;
+}
+
+.donateBox .donateImg a {
+    display: block;
+    position: relative;
+    z-index: 1;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+}
+
+.donateImg a img {
+    display: block;
+    width: 100%;
+}
+
+.donateBox .donateImg a:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgb(255, 255, 255);
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0);
+    /* z-index: -1; */
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+}
+
+.donateDesc h5 {
+    color: #464646;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: "Kanit", sans-serif;
+}
+.donateDesc p {
+    color: #464646;
+    font-size: 10px;
+    font-family: "Kanit", sans-serif;
+}
+.donateDesc h6 {
+    line-height: 12px;
+}
+.donateDesc h6 a {
+    color: #1855ba;
+    font-size: 10px;
+    font-weight: 400;
+    font-family: "Kanit", sans-serif;
+}
+
+.donateDesc {
+    background: #fff;
+    border: #ddd 1px solid;
+    padding: 10px 15px;
+    border-radius: 0 0 20px 20px;
+}
+.progressArea {
+    margin: 8px 0;
+}
+.progressArea ion-progress-bar {
+    --background: #d9d9d9;
+    --progress-background: #5ab843;
+}
+
+.progressArea h5 {
+    color: #464646;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+    margin-bottom: 5px;
+    font-family: "Kanit", sans-serif;
+}
+.donateDescFooter p {
+    text-align: center;
+}
+
+.sortByArea h6 {
+    color: #464646;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    font-family: "Kanit", sans-serif;
+}
+.sortByBox {
+    margin: 10px 0;
+}
+
+.sortByBox a {
+    display: block;
+    box-shadow: 0.416px 1.956px 8px 0px rgba(36, 36, 36, 0.1);
+    background: #fff;
+    padding: 5px 15px;
+    border-radius: 30px;
+    font-size: 11px;
+    color: #464646;
+    text-align: center;
+    font-family: "Kanit", sans-serif;
+}
+.sortByBox a.active,
+.sortByBox a.hover {
+    background: #5ab843;
+    color: #fff;
+}
+
+.sortByBox .list-md,
+.sortByBox .in-item {
+    padding: 0 !important;
+    font-size: 12px;
+    font-family: "Kanit", sans-serif;
+}

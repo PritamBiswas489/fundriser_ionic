@@ -1,0 +1,38 @@
+/* src/pages/MyPage.css */
+.page-content {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .content-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .paypal-button {
+    margin-top: 20px;
+  }
+  
+  .red-text {
+    color: red;
+  }
+  
+  .green-text {
+    color: green;
+  }
+
+  .stripe-pay-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6772e5; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .stripe-pay-button:hover {
+    background-color: #5562c7; /* Change color on hover */
+  }  

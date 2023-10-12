@@ -1,25 +1,33 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+// import Header from '../components/Header';
+// import Footer from '../components/Footer';
+// import HomeBanner from '../components/homeBanner/HomeBanner';
+// import HomeSecOne from '../components/homeSecOne/HomeSecOne';
+// import PopularLocation from '../components/popularLocation/PopularLocation';
+// import Collection from '../components/collection/Collection';
+
+import "./Home.css";
+import ExploreContainer from "../components/ExploreContainer";
 
 const Home: React.FC = () => {
-  return (
-    <IonPage>
-      <IonHeader>
+    return (
+        <IonPage>
+            {/* <IonHeader>
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonTitle>de babyspa</IonTitle>
         </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
-      </IonContent>
-    </IonPage>
-  );
+      </IonHeader> */}
+            {/* <Header /> */}
+            <IonContent fullscreen>
+                <ExploreContainer />
+                {/* <HomeBanner />
+        <HomeSecOne />
+        <PopularLocation />
+        <Collection /> */}
+            </IonContent>
+            {/* <Footer /> */}
+        </IonPage>
+    );
 };
 
 export default Home;

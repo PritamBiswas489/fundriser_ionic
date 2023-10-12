@@ -1,0 +1,28 @@
+.custom-card-element {
+    height: 50px; /* Set your desired height */
+    /* Add other custom styles as needed */
+    border: 1px solid #ccc;
+    margin-top: 2px;
+    padding: 10px;
+      
+  }
+
+
+  /* Basic styles for the Stripe payment button */
+.stripe-pay-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6772e5; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .stripe-pay-button:hover {
+    background-color: #5562c7; /* Change color on hover */
+  }
+  
+  

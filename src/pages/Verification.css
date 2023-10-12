@@ -1,0 +1,79 @@
+.otpArea {
+    background: #f9fff8;
+    height: 100%;
+    padding: 30px 50px;
+}
+.otpArea ul li:not(:last-child) {
+    margin-right: 10px;
+}
+.otpIcon {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.otpIcon ion-img {
+    width: 60%;
+    display: inline-block;
+}
+
+ion-input.otpInput {
+    height: 50px;
+    --background: #fff;
+    --color: #000;
+    --placeholder-color: #c4c4c4;
+    --placeholder-opacity: 1;
+
+    border: 0.5px solid #60bc40;
+    border-radius: 6px;
+    font-weight: 500;
+    letter-spacing: 1;
+    text-align: center;
+
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-start: 0;
+}
+
+/* ion-input[type=number]::-webkit-inner-spin-button, 
+  ion-input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+} */
+
+.otpInputArea input[type="number"]::-webkit-inner-spin-button,
+.otpInputArea input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.verificationText {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.verificationText h3 {
+    color: #60bc40;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: "Kanit", sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.verificationText p {
+    color: #464646;
+    text-align: center;
+    font-family: "Kanit", sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    line-height: 18px;
+}
+.verificationText p span {
+    display: block;
+    font-weight: 400;
+}
+.otpInputArea p {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 10px;
+    font-family: "Kanit", sans-serif;
+}

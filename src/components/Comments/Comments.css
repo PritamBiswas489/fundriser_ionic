@@ -1,0 +1,43 @@
+ion-input.commentInput {
+    --background: #fff;
+    --placeholder-color: #c4c4c4;
+    --placeholder-opacity: 1;
+
+    border: 0.5px solid #60bc40;
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 1;
+
+    --padding-bottom: 8px;
+    --padding-end: 10px;
+    --padding-start: 10px;
+    --padding-top: 8px;
+    min-height: 40px !important;
+}
+
+.inputArea input[type="number"]::-webkit-inner-spin-button,
+.inputArea input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+ion-textarea.custom {
+    --background: #fff;
+    --color: #333;
+    --padding-end: 10px;
+    --padding-start: 10px;
+    --placeholder-color: #ddd;
+    --placeholder-opacity: 0.8;
+    border: 0.5px solid #60bc40;
+    border-radius: 6px;
+    height: 78px;
+    margin-top: 0;
+}
+
+.comments .inputArea {
+    margin-bottom: 12px;
+}
+.comments .inputArea ion-label {
+    margin-bottom: 5px;
+    display: block;
+}

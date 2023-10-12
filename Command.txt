@@ -1,0 +1,2 @@
+ionic cap run android -l --external
+ionic cap run ios -l --external

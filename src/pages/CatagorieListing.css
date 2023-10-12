@@ -1,0 +1,94 @@
+.catagorieListing {
+    background: #f9fff8;
+    min-height: 100%;
+    padding: 20px 20px 50px;
+}
+.catagorieListing .catListBox:not(:last-child) {
+    margin-bottom: 10px;
+}
+.catagorieListing .innerSrc {
+    margin-bottom: 5px;
+}
+ion-title.backTitle {
+    font-size: 12px;
+}
+.searchResultTop {
+    margin-bottom: 10px;
+}
+.searchResultTop ul li {
+    color: #464646;
+    font-size: 10px;
+    font-weight: 300;
+}
+.searchResultTop ul li.srRight {
+    color: #5ab843;
+    font-weight: 500;
+}
+.progressBtm {
+    margin-top: 5px;
+    color: #464646;
+    font-size: 8px;
+    font-weight: 400;
+}
+.catListBox {
+    border-radius: 11px;
+    border: 0.5px solid #5ab843;
+    background: #fff;
+    position: relative;
+}
+.catListImg {
+    flex: 0 0 100px;
+    max-width: 100px;
+}
+.catListImg span {
+    border-radius: 11px;
+    overflow: hidden;
+    display: block;
+}
+.catListDtls {
+    flex: 1 0 0%;
+    padding: 10px 10px;
+}
+.catListDtls h3 {
+    color: #464646;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+.catListDtls p {
+    color: #464646;
+    font-size: 10px;
+    font-weight: 300;
+    line-height: 12px;
+}
+
+.catListBox .progressArea {
+    margin-bottom: 0;
+}
+.donateShare {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+.donateShare li a {
+    width: 12px;
+    height: 12px;
+    text-align: center;
+    line-height: 12px;
+    border-radius: 50%;
+    color: #fff;
+    display: block;
+}
+.donateShare li:not(:last-child) {
+    margin-right: 5px;
+}
+.donateShare li a.donateIcon {
+    background: #464646;
+}
+.donateShare li a.shareIcon {
+    background: #5ab843;
+}
+.donateShare li a svg {
+    font-size: 8px;
+}

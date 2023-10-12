@@ -1,0 +1,24 @@
+ion-toolbar {
+    --background: #f9fff8;
+    --min-height: 50px;
+
+    /* --border-color: #f24aec; */
+
+    /* --min-height: 80px;
+    --padding-top: 20px;
+    --padding-bottom: 20px; */
+}
+.nameIntro {
+    padding-left: 20px !important;
+}
+.nameIntro h6 {
+    color: #464646;
+    font-size: 10px;
+    text-align: left;
+}
+.nameIntro h5 {
+    color: #60bc40;
+    font-size: 10px;
+    font-weight: 500;
+    text-align: left;
+}

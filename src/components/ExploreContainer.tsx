@@ -1,14 +1,36 @@
-import './ExploreContainer.css';
+import "./ExploreContainer.css";
+import React from "react";
+import { IonButton, IonContent, IonText, IonImg } from "@ionic/react";
+import { useIonRouter } from "@ionic/react";
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 const ExploreContainer: React.FC<ContainerProps> = () => {
-  return (
-    <div id="container">
-      <strong>Ready to create an app?</strong>
-      <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-    </div>
-  );
+    const router = useIonRouter();
+    function goToLoginPage() {
+        router.push("/login", "forward", "push");
+    }
+    return (
+        <>
+            <IonContent fullscreen={true}>
+                <div className="homeArea d-flex align-content-between flex-wrap">
+                    <div className="homeImg">
+                        <IonImg src={"../assets/images/home-img.png"} alt="" />
+                    </div>
+                    <div className="w-100 d-flex justify-content-between align-items-center">
+                        <IonButton className="skip" onClick={goToLoginPage}>
+                            Skip
+                        </IonButton>
+                        <IonButton className="next" onClick={goToLoginPage}>
+                            Next
+                        </IonButton>
+                    </div>
+                </div>
+            </IonContent>
+
+            {/* <Footer /> */}
+        </>
+    );
 };
 
 export default ExploreContainer;
