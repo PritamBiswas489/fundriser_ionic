@@ -94,4 +94,7 @@ ion-button.payWithCard {
 }
 .PhoneInputInput{
     height: 40px;
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #60BC40 !important;
 }

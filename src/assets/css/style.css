@@ -4,7 +4,25 @@ body {
     color: #666;
     background: #fff;
 }
-
+ion-app {
+    --ion-background-color: #fff !important; /* Set the background color to white */
+    --ion-text-color: #000 !important; /* Set the text color to black */
+    --ion-border-color: #ccc !important; /* Set the border color to a light gray */
+    --ion-item-background: #fff !important; /* Set the item background color to white */
+  }
+  ion-header {
+    --background: #fff;
+    --color: #000;
+  }
+  ion-toolbar {
+    --background: #fff;
+    --color: #000;
+  }
+  ion-skeleton-text {
+    --border-radius: 9999px !important;
+    --background: rgba(17, 17, 18, 0.829) !important;
+    --background-rgb: 17, 17, 18 !important;
+  }
 html.md {
     --ion-default-font: "Kanit", sans-serif !important;
     font-size: 12px;

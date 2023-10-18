@@ -8,7 +8,7 @@ import Splash from "./pages/Splash";
 import Verification from "./pages/Verification";
 import Landing from "./pages/Landing";
 import Donate from "./pages/Donate";
-import CatagorieListing from "./pages/CatagorieListing";
+import CategoryListing from "./pages/CategoryListing";
 import Donation from "./pages/Donation";
 import StripePayment from "./pages/StripePayment"
 /* Core CSS required for Ionic components to work properly */
@@ -43,12 +43,11 @@ import PayPalPayment from "./pages/PayPalPayment";
 setupIonicReact();
 
 const App = () => (
-    <IonApp>
+    <IonApp color="light">
         <IonReactRouter>
             <IonRouterOutlet>
                 <Route exact path="/home">
-                    {/* <Donation /> */}
-                    <CatagorieListing/>
+                    <Landing/>
                 </Route>
                 <Route exact path="/">
                     <Redirect to="/home" />
@@ -69,22 +68,23 @@ const App = () => (
                 <Route exact path="/landing">
                     <Landing />
                 </Route>
+                <Route exact path="/listing">
+                    <CategoryListing />
+                </Route>
                 <Route exact path="/donate/:id">
                     <Donate />
                 </Route>
-                <Route exact path="/listing">
-                    <CatagorieListing />
-                </Route>
+                
                 <Route exact path="/donation/:id">
                     <Donation />
                 </Route>
-                <Route exact path="/payment-stripe/:id/:amount">
+                <Route exact path="/payment-stripe/:id">
                     <StripePayment/>
                 </Route>
                 <Route exact path="/test-paypal">
                     <TestPayPalPayment/>
                 </Route>
-                <Route exact path="/paypal-payment/:id/:amount">
+                <Route exact path="/paypal-payment/:id">
                     <PayPalPayment/>
                 </Route>
             </IonRouterOutlet>

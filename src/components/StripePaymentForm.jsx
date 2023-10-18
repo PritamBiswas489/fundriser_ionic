@@ -27,10 +27,10 @@ const StripePaymentForm = ({campaign_id, amount,saveLocalData}) => {
     payer_country_iso: saveLocalData?.selectCountryCode,
     payer_phone_code: saveLocalData?.countryCallingCode,
     payer_zip: saveLocalData?.zipCode,
-    payment: 100,
-    total_payment: amount,
+    payment:  saveLocalData?.payment,
+    total_payment: saveLocalData?.total_payment,
     currency: "USD",
-    tips: 10,
+    tips: saveLocalData?.tips,
     extratips: 0,
     anonymous: saveLocalData.isAno ? 1 : 0,
     payment_status: "1",
@@ -47,6 +47,7 @@ const StripePaymentForm = ({campaign_id, amount,saveLocalData}) => {
       message: `
         Thank you for your donation
       `,
+      backdropDismiss:false,
       buttons: [
         {
           text: 'OK',
@@ -69,6 +70,7 @@ const StripePaymentForm = ({campaign_id, amount,saveLocalData}) => {
       message: `
         Donation suddenly failed try again later
       `,
+      backdropDismiss:false,
       buttons: [
         {
           text: "OK",

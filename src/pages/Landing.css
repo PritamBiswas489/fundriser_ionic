@@ -5,6 +5,16 @@
     min-height: 100%;
     width: 100%;
 }
+.searchbar-search-icon {
+    display: none !important;
+  }
+  .searchbutton{
+    
+    
+    font-size: 18px;
+    
+    
+  }
 
 .innerSrc {
     border-radius: 20px;
@@ -27,6 +37,7 @@
     height: 40px;
     box-shadow: none;
     font-size: 12px;
+    color: #000 !important;
 }
 .innerSrcInput ion-icon {
     left: 0 !important;
@@ -134,7 +145,7 @@
     display: block;
     box-shadow: 0.416px 1.956px 8px 0px rgba(36, 36, 36, 0.1);
     background: #fff;
-    padding: 5px 15px;
+    padding: 5px 5px;
     border-radius: 30px;
     font-size: 11px;
     color: #464646;

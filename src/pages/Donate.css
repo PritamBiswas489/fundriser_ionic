@@ -3,7 +3,14 @@
     min-height: 100%;
     padding: 0 20px 40px;
 }
-
+/* src/components/YourComponent.css or global.css */
+.fixed-fab {
+    position: fixed;
+    bottom: 70px; /* Adjust the desired distance from the bottom */
+    right: 20px; /* Adjust the desired distance from the right */
+    z-index: 999; /* Ensure it's above other elements */
+  }
+  
 .createNews h6 {
     color: #464646;
     font-size: 13px;
@@ -37,4 +44,7 @@
 }
 .donateNow {
     margin-top: 20px;
+}
+.swiper-button-prev, .swiper-button-next{
+    color: #5ab843 !important;
 }

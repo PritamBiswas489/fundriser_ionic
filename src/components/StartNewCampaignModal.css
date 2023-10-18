@@ -1,0 +1,28 @@
+ion-input, ion-select  {
+    border-bottom: 1px solid #999;
+    min-height: 30px !important;
+  }
+
+   ion-textarea{
+    border-bottom: 1px solid #999;
+  }
+  .action-sheet-cancel > .action-sheet-button-inner{
+    color: red;
+    font-weight: bold;
+
+  }
+  ion-label{
+    color:#60BC40;
+    font-weight:bold
+  }
+
+  .image-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .image-container img {
+    max-width: 100px;
+    max-height: 100px;
+  }

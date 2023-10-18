@@ -26,12 +26,13 @@ import { chevronBackOutline, personCircle } from "ionicons/icons";
 import { useIonAlert } from "@ionic/react";
 import { useIonRouter } from "@ionic/react";
 import useLocalStorage from "../hook/useLocalStorage";
+import Menu from "../components/Menu";
 
 const stripePromise = loadStripe(STRIPE_PK);
 const StripePayment = () => {
   const params = useParams();
   const campaign_id = params["id"];
-  const amount = params["amount"];
+   
   const router = useIonRouter();
 
   const [value, saveValueToLocalStorage, clearValueFromLocalStorage] = useLocalStorage('donationFormData',{});
@@ -42,7 +43,7 @@ const StripePayment = () => {
   if(!saveLocalData?.personName){
     router.push(`/donation/${campaign_id}`, "forward", "push");
   }
-
+  const amount = saveLocalData?.total_payment;
   const [details, setDetails] = useState({});
   const {
     isLoading: fundRaiserLoading,
@@ -68,7 +69,15 @@ const StripePayment = () => {
     generateCampaignDetails();
   }, [campaign_id]);
 
+  
+  async function openFirstMenu() {
+    const menu = document.querySelector("ion-menu");
+    menu.toggle();
+  }
+
   return (
+    <>
+    <Menu/>
     <IonPage>
       <IonHeader>
         <IonToolbar>
@@ -80,9 +89,9 @@ const StripePayment = () => {
           </IonButtons>
           <IonTitle>Donate with Stripe</IonTitle>
           <IonButtons slot="end">
-            <IonButton>
-              <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
-            </IonButton>
+          <IonButton onClick={openFirstMenu}>
+                <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
+              </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -101,6 +110,7 @@ const StripePayment = () => {
         )}
       </IonContent>
     </IonPage>
+    </>
   );
 };
 

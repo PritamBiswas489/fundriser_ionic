@@ -22,11 +22,13 @@ import { chevronBackOutline, personCircle } from "ionicons/icons";
 import { useIonAlert } from "@ionic/react";
 import { useIonRouter } from "@ionic/react";
 import useLocalStorage from "../hook/useLocalStorage";
+import Menu from "../components/Menu";
 
 const PayPalPayment = () => {
   const params = useParams();
   const campaign_id = params["id"];
-  const amount = params["amount"];
+  const [paypalLoaded, setPaypalLoaded] = useState(false);
+  
   const [presentAlert] = useIonAlert();
   const [showLoader, setShowLoader] = useState(false);
   const router = useIonRouter();
@@ -41,6 +43,9 @@ const PayPalPayment = () => {
   }
 
   const paymentDetails = {
+
+   
+
     user_id_fk: 0,
     campaign_id_fk: campaign_id,
     payer_name: saveLocalData?.personName,
@@ -52,16 +57,17 @@ const PayPalPayment = () => {
     payer_country_iso: saveLocalData?.selectCountryCode,
     payer_phone_code: saveLocalData?.countryCallingCode,
     payer_zip: saveLocalData?.zipCode,
-    payment: 100,
-    total_payment: amount,
+    payment:  saveLocalData?.payment,
+    total_payment: saveLocalData?.total_payment,
     currency: "USD",
-    tips: 10,
+    tips: saveLocalData?.tips,
     extratips: 0,
     anonymous: saveLocalData.isAno ? 1 : 0,
     payment_status: "1",
     status: "1",
-    payment_method: "stripe",
+    payment_method: "paypal",
   };
+  const amount = saveLocalData?.total_payment;
 
   const SuccessAlert = () => {
     presentAlert({
@@ -71,6 +77,7 @@ const PayPalPayment = () => {
       message: `
         Thank you for your donation
       `,
+      backdropDismiss:false,
       buttons: [
         {
           text: "OK",
@@ -91,6 +98,7 @@ const PayPalPayment = () => {
       message: `
         Donation suddenly failed try again later
       `,
+      backdropDismiss:false,
       buttons: [
         {
           text: "OK",
@@ -181,7 +189,18 @@ const PayPalPayment = () => {
     failedAlert();
     console.log(error);
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setPaypalLoaded(true);
+    }, 6000); // Adjust the delay as needed
+  }, []);
+  async function openFirstMenu() {
+    const menu = document.querySelector("ion-menu");
+    menu.toggle();
+  }
   return (
+    <>
+    <Menu/>
     <IonPage>
       <IonHeader>
         <IonToolbar>
@@ -193,9 +212,9 @@ const PayPalPayment = () => {
           </IonButtons>
           <IonTitle>Donate with PayPal</IonTitle>
           <IonButtons slot="end">
-            <IonButton>
-              <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
-            </IonButton>
+          <IonButton onClick={openFirstMenu}>
+                <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
+              </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -206,13 +225,16 @@ const PayPalPayment = () => {
             <h1 className="content-heading">{details?.title}</h1>
             <h3>Donation Amount: ${amount}</h3>
             <div className="paypal-button">
-              <PayPalScriptProvider options={PayPalConfig}>
+             
+
+              {paypalLoaded ? ( <PayPalScriptProvider options={PayPalConfig}>
                 <PayPalButtons
                   createOrder={createOrder}
                   onApprove={approveOrder}
                   onError={errorOrder}
+                  
                 />
-              </PayPalScriptProvider>
+              </PayPalScriptProvider>) : <SkeletonLoader/> }
               <IonLoading
                 isOpen={showLoader}
                 message={"Processing Payment..."}
@@ -223,6 +245,7 @@ const PayPalPayment = () => {
       </IonContent>
       <Footer />
     </IonPage>
+    </>
   );
 };
 

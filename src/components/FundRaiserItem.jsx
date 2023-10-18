@@ -1,19 +1,34 @@
 import React from "react";
-import "../pages/CatagorieListing.css";
+import "../pages/CategoryListing.css";
 import { Link } from "react-router-dom";
 import { BiDonateHeart } from "react-icons/bi";
 import { FaShareAlt } from "react-icons/fa";
-import {
-    IonImg,
-    IonProgressBar
-  } from "@ionic/react";
+import { useIonRouter } from "@ionic/react";
+import { IonImg, IonProgressBar } from "@ionic/react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
-export default function FundRaiserItem({itemValue}) {
+export default function FundRaiserItem({ itemValue }) {
+  const router = useIonRouter();
+
+  const toDetailsPage = (campaign_id) => {
+    router.push(`/donate/${campaign_id}`, "forward", "push");
+  };
+  function formatAmount(amt) {
+    return amt.toLocaleString();
+  }
+  let percentage = 0;
+  const totalRaise = parseFloat(itemValue?.raised || 0);
+  percentage = (parseFloat(totalRaise) * 100) / (itemValue?.goal || 0);
   return (
     <div className="d-flex catListBox">
       <div className="catListImg">
         <span>
-          <IonImg src={"../assets/images/result-1.jpg"} alt="" />
+          <LazyLoadImage
+            alt={itemValue.title}
+            effect="blur"
+            src={itemValue.image}
+          />
         </span>
       </div>
       <div className="catListDtls">
@@ -30,17 +45,30 @@ export default function FundRaiserItem({itemValue}) {
           </li>
         </ul>
         <h3>
-          <a href={`/donate/${itemValue.id}`}>
-            {itemValue.id} -- {itemValue.title}
+          <a
+            href={`#`}
+            onClick={(e) => {
+              e.preventDefault();
+              toDetailsPage(itemValue.id);
+            }}
+          >
+            {/* {itemValue.id} -- */}
+            {itemValue.title}
           </a>
         </h3>
-        <p>By save 1 soul</p>
+        <p>By {itemValue.uploaderName}</p>
         <div className="progressArea">
-          <h5>$550 raised of $ 200,000</h5>
-          <IonProgressBar value={0.5} buffer={0.6}></IonProgressBar>
+          <h5>
+            ${formatAmount(itemValue?.raised || 0)} raised of $
+            {formatAmount(itemValue?.goal || 0)}
+          </h5>
+          <IonProgressBar
+            value={percentage / 100}
+            buffer={0.1}
+          ></IonProgressBar>
           <ul className="d-flex justify-content-between progressBtm">
-            <li>Raised: $332</li>
-            <li>Goal: $1,000,000</li>
+            <li>Raised: ${formatAmount(itemValue?.raised || 0)}</li>
+            <li>Goal: ${formatAmount(itemValue?.goal || 0)}</li>
           </ul>
         </div>
       </div>

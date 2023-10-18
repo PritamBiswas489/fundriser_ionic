@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { categoryDataActions } from "../store/redux/category-data-slice";
 import { pageListingActions } from "../store/redux/page-listing-slice";
-import "../pages/CatagorieListing.css";
+import "../pages/CategoryListing.css";
 import { Link } from "react-router-dom";
  
 
@@ -23,7 +23,7 @@ export default function CategoryFilterItem({text,category_id}) {
     <div className="sortByBox">
       <Link
         to={"#"}
-        onClick={() => setSelectedCategory()}
+        onClick={(e) =>{ e.preventDefault(); setSelectedCategory() }}
         className={`${selectedCategory === category_id && "active"}`}
       >
         {text}

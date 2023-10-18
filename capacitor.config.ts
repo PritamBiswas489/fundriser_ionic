@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'io.aqualeaf.peoplefundme',
   appName: 'ionic fundriser',
   webDir: 'dist',
   server: {
