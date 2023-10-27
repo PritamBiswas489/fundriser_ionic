@@ -79,7 +79,7 @@ const AccountDonationList = () => {
    
   return (
     <>
-      <Menu />
+      
       <IonPage>
         <IonHeader>
           <IonToolbar>

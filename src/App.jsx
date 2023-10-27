@@ -53,7 +53,8 @@ setupIonicReact();
 const App = () => (
   <IonApp color="light">
     <IonReactRouter>
-      <IonRouterOutlet>
+      <Menu/>
+      <IonRouterOutlet id="main">
         <Route exact path="/account-dashboard">
           <AccountDashboard />
         </Route>

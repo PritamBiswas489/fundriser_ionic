@@ -119,7 +119,7 @@ const CategoryListing = () => {
 
   return (
     <>  
-      <Menu />
+       
       <IonPage>
         <IonHeader>
           <IonToolbar>

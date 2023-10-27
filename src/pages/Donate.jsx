@@ -141,7 +141,7 @@ const Donate = () => {
   
   return (
     <>
-     <Menu   />
+     
       <IonPage >
         <IonHeader>
           <IonToolbar>

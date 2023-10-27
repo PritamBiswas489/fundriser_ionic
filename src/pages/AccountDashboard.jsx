@@ -162,7 +162,7 @@ const AccountDashboard = () => {
   }
   return (
     <>
-      <Menu />
+      
       <IonPage>
         <IonHeader>
           <IonToolbar>

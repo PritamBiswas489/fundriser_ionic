@@ -235,7 +235,7 @@ const AccountProfile = () => {
   };
   return (
     <>
-      <Menu />
+      
       <IonPage>
         <IonHeader>
           <IonToolbar>

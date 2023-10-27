@@ -200,7 +200,7 @@ const PayPalPayment = () => {
   }
   return (
     <>
-    <Menu/>
+    
     <IonPage>
       <IonHeader>
         <IonToolbar>

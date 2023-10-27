@@ -77,7 +77,7 @@ const StripePayment = () => {
 
   return (
     <>
-    <Menu/>
+     
     <IonPage>
       <IonHeader>
         <IonToolbar>

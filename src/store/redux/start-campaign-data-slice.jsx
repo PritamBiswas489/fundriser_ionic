@@ -46,6 +46,7 @@ const initialState = {
     youtubeUrl:'',
     existingImages: [],
     existingDocuments:'',
+    deletedImages:[]
 };
 const startCampignDataSlice = createSlice({
     name: "startCampignData",

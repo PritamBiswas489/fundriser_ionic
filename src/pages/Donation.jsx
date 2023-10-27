@@ -313,7 +313,7 @@ const Donation = () => {
   }
   return (
     <>
-    <Menu/>
+    
       <IonPage>
         <IonHeader>
           <IonToolbar>

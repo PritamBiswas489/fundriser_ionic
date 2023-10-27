@@ -67,7 +67,7 @@ const AccountYourDonation = () => {
   }
   return (
     <>
-      <Menu />
+      
       <IonPage>
         <IonHeader>
           <IonToolbar>

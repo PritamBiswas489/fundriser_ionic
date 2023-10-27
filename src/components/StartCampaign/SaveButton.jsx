@@ -94,6 +94,12 @@ export default function SaveButton() {
   const selectedImages = useSelector(
     (state) => state["startCampignData"].selectedImages
   );
+  const deletedImages = useSelector(
+    (state) => state["startCampignData"].deletedImages
+  ); 
+  const existingImages = useSelector(
+    (state) => state["startCampignData"].existingImages
+  );
   const selectedDocuments = useSelector(
     (state) => state["startCampignData"].selectedDocuments
   );
@@ -190,7 +196,12 @@ export default function SaveButton() {
         presentToast('middle','Upload one or more than one image');
         return;
       }
-
+    }
+    if(parseInt(campaignID) >0  ){
+       if(existingImages.length ===0 && selectedImages.length === 0){
+        presentToast('middle','Upload one or more than one image');
+        return;
+       }
     }
     
     if(parseInt(fundriseAs) === 2){
@@ -279,6 +290,12 @@ export default function SaveButton() {
        dImage.forEach((dImage, dImageIndex) => {
         formData.append(`uploadimg[${dImageIndex}]`, dImage);
       });
+    }
+    if(deletedImages.length > 0){
+      deletedImages.forEach((imageName, ImageIndex) => {
+        formData.append(`deletedImages[${ImageIndex}]`, imageName);
+      });
+
     }
 
     if(selectedDocuments?.name){

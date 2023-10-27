@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IonInput, IonLabel, IonImg } from "@ionic/react";
+import { IonInput, IonLabel, IonButton , IonItem, IonIcon} from "@ionic/react";
 import { startCampignDataActions } from "../../store/redux/start-campaign-data-slice";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { trash } from "ionicons/icons";
 
 export default function Images() {
   const dispatch = useDispatch();
@@ -14,7 +15,14 @@ export default function Images() {
   const existingImages = useSelector(
     (state) => state["startCampignData"].existingImages
   );
-   //console.log(existingImages);
+  const deletedImages = useSelector(
+    (state) => state["startCampignData"].deletedImages
+  ); 
+
+ // console.log({deletedImages});
+
+  
+  //console.log(existingImages);
   const setSelectedImages = (value) =>
     dispatch(
       startCampignDataActions.setData({ field: "selectedImages", data: value })
@@ -55,15 +63,30 @@ export default function Images() {
       const d = await Promise.all(promises);
       setImagesList(d);
     }
-    if (selectedImages.length > 0) {
-      tt();
-    }
+    tt();
   }, [selectedImages]);
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0] || null;
     setSelectedImages([...selectedImages, serializeFile(file)]);
   };
+  const onDeleteImage = (index) =>{
+    const images = selectedImages.filter((v,i)=>i!=index);
+    setSelectedImages(images);
+  }
+  const onDeleteExistingImage = (index)=>{
+    const imageUrl = existingImages?.[index];
+    const parts = imageUrl.split('/');
+    const basename = parts.pop();
+    dispatch(
+      startCampignDataActions.setData({ field: "deletedImages", data: [...deletedImages,basename] })
+    );
+    const images = existingImages.filter((v,i)=>i!=index);
+    dispatch(
+      startCampignDataActions.setData({ field: "existingImages", data: images })
+    );
+
+  }
   return (
     <>
       <div className="inputArea" style={{ marginTop: 5 }}>
@@ -80,6 +103,7 @@ export default function Images() {
             {existingImages &&
               existingImages.map((imageUrl, imageUrlIndex) => {
                 return (
+                  <IonItem key={imageUrlIndex}>
                   <LazyLoadImage
                     key={imageUrlIndex}
                     effect="blur"
@@ -87,17 +111,26 @@ export default function Images() {
                     height={100}
                     src={imageUrl}
                   />
+                  <IonButton color="danger" slot="end" onClick={() =>  onDeleteExistingImage(imageUrlIndex)}>
+                    <IonIcon icon={trash} />
+                  </IonButton>
+                </IonItem>
                 );
               })}
             {imagesList.map((selectedImage, selectedIndex) => {
               return (
-                <LazyLoadImage
-                  key={selectedIndex}
-                  effect="blur"
-                  width={100}
-                  height={100}
-                  src={URL.createObjectURL(selectedImage)}
-                />
+                <IonItem key={selectedIndex}>
+                  <LazyLoadImage
+                    key={selectedIndex}
+                    effect="blur"
+                    width={100}
+                    height={100}
+                    src={URL.createObjectURL(selectedImage)}
+                  />
+                  <IonButton color="danger" slot="end" onClick={() =>  onDeleteImage(selectedIndex)}>
+                    <IonIcon icon={trash} />
+                  </IonButton>
+                </IonItem>
               );
             })}
           </div>

@@ -129,7 +129,7 @@ const Landing = () => {
   }
   return (
     <>
-      <Menu />
+      
       <IonPage>
         <IonHeader>
           <IonToolbar>

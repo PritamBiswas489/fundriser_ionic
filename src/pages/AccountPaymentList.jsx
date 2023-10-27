@@ -71,7 +71,7 @@ const AccountPaymentList = () => {
   }
   return (
     <>
-      <Menu />
+       
       <IonPage>
         <IonHeader>
           <IonToolbar>
