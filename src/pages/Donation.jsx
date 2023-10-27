@@ -257,7 +257,7 @@ const Donation = () => {
       presentToast("middle", "Enter valid email address");
       return;
     }
-    if (phoneNumber.trim() === "") {
+    if (phoneNumber.trim() === "" || typeof phoneNumber ==='undefined') {
       presentToast("middle", "Enter valid phone number");
       return;
     }

@@ -9,7 +9,9 @@ import homeSearchFieldSlice from "./redux/home-search-field-slice";
 import homeListingSlice from "./redux/home-listing-slice";
 import startCampignDataSlice from "./redux/start-campaign-data-slice";
 import startCampignModalSlice from "./redux/start-campaign-modal-slice";
- 
+import userDataSlice from "./redux/user-data-slice";
+import userAccountDataSlice from "./redux/user-account-data";
+
 
 const store = configureStore({
     reducer: { 
@@ -22,7 +24,9 @@ const store = configureStore({
       homeSearchField:homeSearchFieldSlice.reducer,
       homeListing:homeListingSlice.reducer,
       startCampignData:startCampignDataSlice.reducer,
-      startCampignModal:startCampignModalSlice.reducer
+      startCampignModal:startCampignModalSlice.reducer,
+      userData:userDataSlice.reducer,
+      userAccountData:userAccountDataSlice.reducer
     },
   });
   

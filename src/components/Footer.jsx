@@ -5,12 +5,15 @@ import { IonTabBar, IonTabButton, IonLabel } from "@ionic/react";
 import StartNewCampaignModal from "./StartNewCampaignModal";
 import { useSelector, useDispatch } from "react-redux";
 import { startCampignModalActions } from "../store/redux/start-campaign-modal-slice";
+import { startCampignDataActions } from "../store/redux/start-campaign-data-slice";
 
 const Footer = () => {
     const dispatch = useDispatch();
     const modalStatus = useSelector(state=>state['startCampignModal'].show);
     const openAddCampaignForm = () =>{
         dispatch(startCampignModalActions.setData({field:'show',data:true}));
+        dispatch(startCampignDataActions.setData({field:'campaignID',data:0}));
+        dispatch(startCampignDataActions.resetState());
     }
     return (
         <>

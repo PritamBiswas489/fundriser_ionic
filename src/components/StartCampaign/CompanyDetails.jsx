@@ -189,7 +189,7 @@ export default function CompanyDetails({countries}) {
       <div className="inputArea" style={{ marginTop: 5 }}>
         <IonLabel>Company Website</IonLabel>
         <IonInput
-          value={companyWebsite}
+          value={companyWebsite || ''}
           onIonInput={(e) => setCompanyWebsite(e.detail.value)}
         />
       </div>

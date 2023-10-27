@@ -13,6 +13,7 @@ import {
   IonBackButton,
   IonTitle,
   IonSearchbar,
+  IonMenu,
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import { chevronBackOutline, personCircle } from "ionicons/icons";
@@ -35,14 +36,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import Menu from "../components/Menu";
 
 const Landing = () => {
-
-  
   const [isDragging, setIsDragging] = useState(false);
-
-  
-
-
-
 
   const router = useIonRouter();
   const dispatch = useDispatch();
@@ -85,7 +79,7 @@ const Landing = () => {
 
   const inspirition = {
     autoplay: true,
-    autoplayTimeout: 10000 ,
+    autoplayTimeout: 10000,
     smartSpeed: 2000,
     loop: true,
     margin: 10,
@@ -125,7 +119,7 @@ const Landing = () => {
   };
   function truncateText(text, maxLength) {
     if (text.length > maxLength) {
-      return text.slice(0, maxLength) + '...';
+      return text.slice(0, maxLength) + "...";
     }
     return text;
   }
@@ -135,7 +129,7 @@ const Landing = () => {
   }
   return (
     <>
-     <Menu/>
+      <Menu />
       <IonPage>
         <IonHeader>
           <IonToolbar>
@@ -148,7 +142,7 @@ const Landing = () => {
             </IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={openFirstMenu}>
-                <IonIcon slot="icon-only"  icon={personCircle}></IonIcon>
+                <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
               </IonButton>
             </IonButtons>
           </IonToolbar>
@@ -158,7 +152,9 @@ const Landing = () => {
             <div className="innerSrc d-flex align-items-center">
               <IonSearchbar
                 value={searchValue}
-                onKeyUp={(e)=>{ (e.key==='Enter' || e.key=== 'Search') && gotoListpage()}}
+                onKeyUp={(e) => {
+                  (e.key === "Enter" || e.key === "Search") && gotoListpage();
+                }}
                 onIonChange={(e) => {
                   setSearchValue(e.detail.value);
                 }}
@@ -182,7 +178,7 @@ const Landing = () => {
             {fundRaiserLoading && <SkeletonLoader />}
             {campaignList.length > 0 && (
               <div className="donateArea">
-                <OwlCarousel className="owl-theme"  {...inspirition}>
+                <OwlCarousel className="owl-theme" {...inspirition}>
                   {campaignList.map((itemValue, itemIndex) => {
                     return (
                       <div className="item" key={itemIndex}>
@@ -198,15 +194,17 @@ const Landing = () => {
                               <LazyLoadImage
                                 alt={itemValue.title}
                                 effect="blur"
-                                height={'150px'}
-                                width={'100%'}
+                                height={"150px"}
+                                width={"100%"}
                                 src={itemValue.image}
                               />
                             </Link>
                           </div>
                           <div className="donateDesc">
                             <h5>{itemValue.title}</h5>
-                            <p>{truncateText(itemValue?.fundraising_for,100)}</p>
+                            <p>
+                              {truncateText(itemValue?.fundraising_for, 100)}
+                            </p>
                             <h6>
                               <Link
                                 to={"#"}

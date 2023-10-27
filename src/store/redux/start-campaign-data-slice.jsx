@@ -17,7 +17,8 @@ function getTimeFormat(){
   return formattedDateTime;
 }
 const initialState = {
-    ShowDefaultData : true,
+    campaignID:0,
+    ShowDefaultData : false,
     selectedDate: getTimeFormat(),
     formattedDate:"",
     campaignTitle:"",
@@ -43,6 +44,8 @@ const initialState = {
     selectedDocuments:'',
     showCalendar:false,
     youtubeUrl:'',
+    existingImages: [],
+    existingDocuments:'',
 };
 const startCampignDataSlice = createSlice({
     name: "startCampignData",

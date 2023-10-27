@@ -14,6 +14,7 @@ import {
   IonSearchbar,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonMenu
 } from "@ionic/react";
 
 import { chevronBackOutline, personCircle } from "ionicons/icons";
@@ -117,9 +118,9 @@ const CategoryListing = () => {
   }
 
   return (
-    <>
-      <Menu   />
-      <IonPage   >
+    <>  
+      <Menu />
+      <IonPage>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">

@@ -29,6 +29,10 @@ export default function SaveButton() {
       ],
     });
   };
+  const user_id = useSelector(state=>state["userData"].user_id);
+
+  const campaignID = useSelector(state=>state['startCampignData'].campaignID);  
+  
   const campaignEndDate = useSelector(
     (state) => state["startCampignData"].formattedDate
   );
@@ -108,10 +112,7 @@ export default function SaveButton() {
 
     return formData;
   }
-  const closemodalpopup = ()=>{
-    dispatch(startCampignModalActions.setData({field:'show',data:false}));
-
-  }
+   
 
   const {
     isLoading: fundRaiserSaveLoading,
@@ -184,10 +185,14 @@ export default function SaveButton() {
       return;
 
     }
-    if(selectedImages.length === 0){
-      presentToast('middle','Upload one or more than one image');
-      return;
+    if(parseInt(campaignID) === 0){
+      if(selectedImages.length === 0){
+        presentToast('middle','Upload one or more than one image');
+        return;
+      }
+
     }
+    
     if(parseInt(fundriseAs) === 2){
       if(companyName.trim() === ''){
         presentToast('middle','Enter company name');
@@ -221,6 +226,7 @@ export default function SaveButton() {
     }
      
     const dataInput = {
+      campaignID,
       campaignEndDate,
       campaignTitle,
       campaignDesc,
@@ -242,6 +248,7 @@ export default function SaveButton() {
       companyEmailAddress,
       companyWebsite,
       youtubeUrl,
+      user_id
     };
 
 
@@ -277,9 +284,14 @@ export default function SaveButton() {
     if(selectedDocuments?.name){
       formData.append(`selectedDocuments`, await blobUrlToFile(selectedDocuments));
     }
+
+    let Url =  `${API_BASE_URL}start-campaign-save-data`;
+    if(parseInt(campaignID) > 0){
+      Url =  `${API_BASE_URL}start-campaign-update-data`;
+    } 
  
     const responseData = await fundRaiserSaveFetch(
-      `${API_BASE_URL}start-campaign-save-data`,
+      Url,
       "POST",
       formData
     );    
@@ -288,10 +300,10 @@ export default function SaveButton() {
         clearError();
         dispatch(startCampignModalActions.setData({field:'show',data:false}));
         dispatch(startCampignDataActions.resetState());
-        presentToast('middle','Campaign Successfully created');
+        presentToast('middle','Campaign Successfully saved');
     }else if(fundRaiserSaveError){
         // clearError();
-        presentToast('middle','Create campaign failed');
+        presentToast('middle','Saved campaign failed');
         
     }
   };
@@ -301,7 +313,7 @@ export default function SaveButton() {
       <IonButton expand="full" disabled={fundRaiserSaveLoading} onClick={saveProcess}>
         {fundRaiserSaveLoading ? 'Processing...' : 'Save'}
       </IonButton>
-      <IonButton expand="full" disabled={fundRaiserSaveLoading} onClick={closemodalpopup}>Cancel</IonButton>
+       
     </>
   );
 }

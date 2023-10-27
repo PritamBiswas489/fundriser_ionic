@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./StartNewCampaignModal.css";
 import {
   IonModal,
-  
+  IonToolbar,
+  IonTitle,
   IonInput,
   IonLabel,
   IonSelect,
@@ -11,6 +12,8 @@ import {
   IonTextarea,
   IonDatetime,
   IonPopover,
+  IonHeader,
+  IonIcon
 
 } from "@ionic/react";
 import { useIonToast } from "@ionic/react";
@@ -26,6 +29,10 @@ import Documents from "./StartCampaign/Documents";
 import Images from "./StartCampaign/Images";
 import FundriseType from "./StartCampaign/FundriseType";
 import SaveButton from "./StartCampaign/SaveButton";
+import { closeCircle } from "ionicons/icons";
+import { startCampignModalActions } from "../store/redux/start-campaign-modal-slice";
+
+
 
 const StartNewCampaignModal = ({ showModal }) => {
      
@@ -49,6 +56,15 @@ const StartNewCampaignModal = ({ showModal }) => {
         const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
         return formattedDateTime;
     }
+
+    const closemodalpopup = ()=>{
+      dispatch(startCampignModalActions.setData({field:'show',data:false}));
+  
+    }
+
+  const campaignID = useSelector(state=>state['startCampignData'].campaignID);  
+
+  //console.log(campaignID);
 
   const ShowDefaultData = useSelector(state=>state['startCampignData'].ShowDefaultData); 
    
@@ -213,9 +229,22 @@ const StartNewCampaignModal = ({ showModal }) => {
   return (
     <div>
       <IonModal isOpen={showModal}>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle style={{ fontSize: "14px" }}>
+            <div dangerouslySetInnerHTML={{__html: campaignID ? `<b>EDIT: </b> ${campaignTitle}` : `Create Your Fundraising Campaign`}}></div>
+            </IonTitle>
+          <IonIcon
+            icon={closeCircle}
+            onClick={closemodalpopup}
+            slot="end"
+            style={{ fontSize: "24px", marginRight: "12px", cursor: "pointer" }}
+          />
+        </IonToolbar>
+      </IonHeader>
         <IonContent>
           <div className="ion-padding">
-            <h2>Create Your Fundraising Campaign</h2>
+             
             <p>
               Fill in some important details to let your friends know what
               you're fundraising for.{" "}
