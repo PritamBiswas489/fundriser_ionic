@@ -70,8 +70,10 @@ const AccountProfile = () => {
     clearError,
   } = useHttpClient();
 
-  const updateState = (data) =>{
-    //console.log(data);
+  const updateState = (d) =>{
+    const data = d?.user;
+    const main = d?.main;
+     
     dispatch(
       userAccountDataActions.setData({
         field: "firstName",
@@ -108,6 +110,15 @@ const AccountProfile = () => {
         data: data?.zip,
       })
     );
+
+    dispatch(
+      userAccountDataActions.setData({
+        field: "user",
+        data:  main,
+      })
+    );
+
+
     dispatch(
       userAccountDataActions.setData({ field: "isFetched", data: true })
     );
@@ -120,7 +131,7 @@ const AccountProfile = () => {
       `${API_BASE_URL}myprofile?${queryString}`
     );
     if (responseData?.user) {
-      updateState(responseData.user)
+      updateState(responseData)
     }
   };
 
@@ -221,7 +232,7 @@ const AccountProfile = () => {
       accountDataError();
       if(responseData.profile){
         //console.log(responseData.profile);
-        updateState(responseData.profile);
+        updateState(responseData);
       }
       presentToast("middle", "Profile update successfully done.");
     } else if (accountDataSaveError) {

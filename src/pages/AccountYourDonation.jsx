@@ -88,41 +88,41 @@ const AccountYourDonation = () => {
         </IonRefresher>
           {dataLoading && <SkeletonLoader />}
 
-          {resultData?.totalAmount && (
+          {resultData?.totalAmount ? (
             <IonCard key={1}>
               <IonCardHeader>
                 <IonCardTitle>${resultData?.totalAmount}</IonCardTitle>
               </IonCardHeader>
               <IonCardContent>Donated</IonCardContent>
             </IonCard>
-          )}
+          ) : ''}
 
-          {resultData?.withdrawn && (
+          {resultData?.withdrawn ? (
             <IonCard key={2}>
               <IonCardHeader>
                 <IonCardTitle>${resultData?.withdrawn}</IonCardTitle>
               </IonCardHeader>
               <IonCardContent>Withdrawn</IonCardContent>
             </IonCard>
-          )}
+          ):''}
 
-          {resultData?.interestPaid && (
+          {resultData?.interestPaid ? (
             <IonCard key={3}>
               <IonCardHeader>
                 <IonCardTitle>${resultData?.interestPaid}</IonCardTitle>
               </IonCardHeader>
               <IonCardContent>Processing Fees 10%</IonCardContent>
             </IonCard>
-          )}
+          ) : ''}
 
-          {resultData?.bananceLeft && (
+          {resultData?.bananceLeft ? (
             <IonCard key={4}>
               <IonCardHeader>
                 <IonCardTitle>${resultData.bananceLeft}</IonCardTitle>
               </IonCardHeader>
               <IonCardContent>Balance Left</IonCardContent>
             </IonCard>
-          )}
+          ) : ''}
         </IonContent>
         <Footer />
       </IonPage>

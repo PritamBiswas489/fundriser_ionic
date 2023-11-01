@@ -12,8 +12,10 @@ import {
 } from "@ionic/react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Menu() {
+  const user_id = useSelector((state) => state["userData"].user_id);
   const location = useLocation();
   function isVisible(element) {
     const computedStyle = window.getComputedStyle(element);
@@ -34,7 +36,7 @@ export default function Menu() {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonList>
+         {parseInt(user_id) > 0 && (<IonList>
             <IonItem routerLink="/account-dashboard">
               <IonLabel>Dashboard</IonLabel>
             </IonItem>
@@ -50,10 +52,20 @@ export default function Menu() {
             <IonItem routerLink="/account-profile">
               <IonLabel>Profile</IonLabel>
             </IonItem>
-            <IonItem onClick={() => alert("Logout not done yet")}>
+            <IonItem routerLink="/logout">
               <IonLabel>Signout</IonLabel>
             </IonItem>
-          </IonList>
+          </IonList>) } 
+
+          {parseInt(user_id) === 0 && (<IonList>
+            <IonItem routerLink="/login">
+              <IonLabel>Login</IonLabel>
+            </IonItem>
+            <IonItem routerLink="/register">
+              <IonLabel>Register</IonLabel>
+            </IonItem>
+          </IonList>)}
+          
         </IonContent>
       </IonMenu>
     </>

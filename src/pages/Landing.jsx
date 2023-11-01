@@ -33,22 +33,30 @@ import { useHttpClient } from "../hook/http-hook";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import Menu from "../components/Menu";
 
 const Landing = () => {
   const [isDragging, setIsDragging] = useState(false);
-
   const router = useIonRouter();
   const dispatch = useDispatch();
   const searchValue = useSelector(
     (state) => state["homeSearchField"].searchValue
   );
-
+  const userAccountData = useSelector((state) => state["userAccountData"]);
+  const [profileName, setProfileName] = useState("Guest");
   const campaignList = useSelector((state) => state["homeListing"].list);
-
   const setSearchValue = (value) => {
     dispatch(homeSearchFieldActions.setValue(value));
   };
+
+  useEffect(() => {
+    if (userAccountData.firstName !== "") {
+      setProfileName(
+        userAccountData.firstName + " " + userAccountData.lastName
+      );
+    }else{
+      setProfileName('Guest');
+    }
+  }, [userAccountData]);
 
   const {
     isLoading: fundRaiserLoading,
@@ -129,7 +137,6 @@ const Landing = () => {
   }
   return (
     <>
-      
       <IonPage>
         <IonHeader>
           <IonToolbar>
@@ -138,7 +145,7 @@ const Landing = () => {
             </IonButtons>
             <IonTitle className="backTitle">
               <h6>Welcome,</h6>
-              <h5>Guest</h5>
+              <h5>{profileName}</h5>
             </IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={openFirstMenu}>

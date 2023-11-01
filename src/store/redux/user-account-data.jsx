@@ -8,6 +8,7 @@ const initialState = {
     address:'',
     zip:'',
     email:'',
+    user:{}
  };
  const userAccountDataSlice = createSlice({
     name: "user",
@@ -16,6 +17,7 @@ const initialState = {
       setData(state, action) {
         state[action.payload.field] = action.payload.data;
       },
+      resetState: (state) => initialState,
     },
 });
 export const userAccountDataActions = userAccountDataSlice.actions;
