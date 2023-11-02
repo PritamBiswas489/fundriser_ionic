@@ -236,6 +236,7 @@ const AccountProfile = () => {
       }
       presentToast("middle", "Profile update successfully done.");
     } else if (accountDataSaveError) {
+      accountDataError();
       presentToast("middle", "Profile update failed.");
     }
   };
@@ -308,7 +309,7 @@ const AccountProfile = () => {
                     value={formInputData?.country}
                     className="selectOption"
                     onIonChange={(e) => {
-                      setData({ lastName: e.detail.value });
+                      setData({ country: e.detail.value });
                     }}
                   >
                     {countries.map((countryDet, countryIndex) => {
