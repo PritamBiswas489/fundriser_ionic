@@ -155,8 +155,24 @@ const StripePaymentForm = ({campaign_id, amount,saveLocalData}) => {
     });
 
     if (result.error) {
+      if(result?.error?.message){
+        presentAlert({
+          cssClass: "my-custom-alert", // Add a custom CSS class for styling
+          header: "Failed",
+          subHeader: "Payment via Stripe",
+          message: result?.error?.message,
+          backdropDismiss:false,
+          buttons: [
+            {
+              text: "OK",
+            },
+          ],
+        });
+      }else{
         failedAlert();
-        console.error(result.error);
+      }
+        //console.error(result.error);
+      setProcessing(false);
     } else {
       const paymentMethodId = result.paymentMethod.id;
       handlePaymentConfirmation(paymentMethodId,function(isSuccess){

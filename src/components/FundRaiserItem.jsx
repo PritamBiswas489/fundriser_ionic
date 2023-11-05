@@ -7,15 +7,56 @@ import { useIonRouter } from "@ionic/react";
 import { IonImg, IonProgressBar } from "@ionic/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { Share } from '@capacitor/share';
+import { useIonToast } from "@ionic/react";
+import { SITE_URL } from "../config";
 
 export default function FundRaiserItem({ itemValue }) {
   const router = useIonRouter();
+  const [present] = useIonToast();
+  const presentToast = (position, message) => {
+    present({
+      message: message,
+      duration: 3000,
+      position: position,
+      cssClass: "custom-toast",
+
+      buttons: [
+        {
+          text: "Dismiss",
+          role: "cancel",
+        },
+      ],
+    });
+  };
 
   const toDetailsPage = (campaign_id) => {
     router.push(`/donate/${campaign_id}`, "forward", "push");
   };
   function formatAmount(amt) {
     return amt.toLocaleString();
+  }
+  function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
+  }
+  const shareContent = async (e)=>{
+    e.preventDefault();
+    const shareOptions = {
+      title: itemValue.title,
+      text: truncateText(itemValue?.fundraising_for, 100),
+      url: SITE_URL+'donation/'+itemValue.slug,
+      dialogTitle: 'Share with friends',
+    };
+    try {
+      await Share.share(shareOptions);
+      presentToast('middle','Shared successfully');
+    } catch (error) {
+      presentToast('middle','Shared failed');
+    }
+
   }
   let percentage = 0;
   const totalRaise = parseFloat(itemValue?.raised || 0);
@@ -33,13 +74,13 @@ export default function FundRaiserItem({ itemValue }) {
       </div>
       <div className="catListDtls">
         <ul className="d-flex donateShare">
-          <li>
+          {/* <li>
             <Link to={"/"} className="donateIcon">
               <BiDonateHeart />
             </Link>
-          </li>
+          </li> */}
           <li>
-            <Link to={"/"} className="shareIcon">
+            <Link to={"/"} onClick={shareContent} className="shareIcon">
               <FaShareAlt />
             </Link>
           </li>

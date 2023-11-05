@@ -11,6 +11,7 @@ import startCampignDataSlice from "./redux/start-campaign-data-slice";
 import startCampignModalSlice from "./redux/start-campaign-modal-slice";
 import userDataSlice from "./redux/user-data-slice";
 import userAccountDataSlice from "./redux/user-account-data";
+import settingDataSlice from "./redux/settings-data-slice";
 
 
 const store = configureStore({
@@ -26,7 +27,8 @@ const store = configureStore({
       startCampignData:startCampignDataSlice.reducer,
       startCampignModal:startCampignModalSlice.reducer,
       userData:userDataSlice.reducer,
-      userAccountData:userAccountDataSlice.reducer
+      userAccountData:userAccountDataSlice.reducer,
+      settingData:settingDataSlice.reducer
     },
   });
   

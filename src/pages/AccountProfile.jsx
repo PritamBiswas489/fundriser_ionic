@@ -17,15 +17,12 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import { chevronBackOutline, personCircle } from "ionicons/icons";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
 import Footer from "../components/Footer";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { useSelector, useDispatch } from "react-redux";
 import { API_BASE_URL, DATA_PER_PAGE } from "../config";
 import { useHttpClient } from "../hook/http-hook";
 import SkeletonLoader from "../components/SkeletonLoader";
-import Menu from "../components/Menu";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { userAccountDataActions } from "../store/redux/user-account-data";

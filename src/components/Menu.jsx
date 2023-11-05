@@ -41,7 +41,7 @@ export default function Menu() {
               <IonLabel>Dashboard</IonLabel>
             </IonItem>
             <IonItem routerLink="/account-your-donation">
-              <IonLabel>Your donation</IonLabel>
+              <IonLabel>Your Donation</IonLabel>
             </IonItem>
             <IonItem routerLink="/account-donation-list">
               <IonLabel>Donation List</IonLabel>
@@ -52,8 +52,11 @@ export default function Menu() {
             <IonItem routerLink="/account-profile">
               <IonLabel>Profile</IonLabel>
             </IonItem>
+            <IonItem routerLink="/change-password">
+              <IonLabel>Change Password</IonLabel>
+            </IonItem>
             <IonItem routerLink="/logout">
-              <IonLabel>Signout</IonLabel>
+              <IonLabel>Logout</IonLabel>
             </IonItem>
           </IonList>) } 
 

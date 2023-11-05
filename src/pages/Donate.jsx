@@ -44,10 +44,34 @@ import { Navigation } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import AddComment from "../components/AddComment";
-import Menu from "../components/Menu";
+import { Share } from '@capacitor/share';
+import { SITE_URL } from "../config";
+import { useIonToast } from "@ionic/react";
 
 const Donate = () => {
   const params = useParams();
+  const [present] = useIonToast();
+  const presentToast = (position, message) => {
+    present({
+      message: message,
+      duration: 3000,
+      position: position,
+      cssClass: "custom-toast",
+
+      buttons: [
+        {
+          text: "Dismiss",
+          role: "cancel",
+        },
+      ],
+    });
+  };
+  function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
+  }
   const campaign_id = params["id"];
 
   const [details, setDetails] = useState({});
@@ -138,6 +162,21 @@ const Donate = () => {
     const menu = document.querySelector("ion-menu");
     menu.toggle();
   }
+  const shareContent = async (itemValue,e)=>{
+    e.preventDefault();
+    const shareOptions = {
+      title: itemValue.title,
+      text: truncateText(itemValue?.fundraising_for, 100),
+      url: SITE_URL+'donation/'+itemValue.slug,
+      dialogTitle: 'Share with friends',
+    };
+    try {
+      await Share.share(shareOptions);
+      presentToast('middle','Shared successfully');
+    } catch (error) {
+      presentToast('middle','Shared failed');
+    }
+  }
   
   return (
     <>
@@ -188,13 +227,13 @@ const Donate = () => {
                 <div className="createNews d-flex justify-content-between align-items-center">
                   <h6>Created {formatedDate(details.created_at)}</h6>
                   <ul className="d-flex">
-                    <li>
+                    {/* <li>
                       <Link to={"/"} className="donateIcon">
                         <BiDonateHeart />
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
-                      <Link to={"/"} className="shareIcon">
+                      <Link to={"/"} onClick={ shareContent.bind(this,details)} className="shareIcon">
                         <FaShareAlt />
                       </Link>
                     </li>

@@ -21,15 +21,17 @@ import { useParams } from "react-router";
 import SkeletonLoader from "../components/SkeletonLoader";
 import { useHttpClient } from "../hook/http-hook";
 import { API_BASE_URL, STRIPE_PK } from "../config";
-import Footer from "../components/Footer";
 import { chevronBackOutline, personCircle } from "ionicons/icons";
-import { useIonAlert } from "@ionic/react";
 import { useIonRouter } from "@ionic/react";
 import useLocalStorage from "../hook/useLocalStorage";
-import Menu from "../components/Menu";
+import { useSelector } from "react-redux";
 
-const stripePromise = loadStripe(STRIPE_PK);
+
+
+
 const StripePayment = () => {
+  const settingData = useSelector(state=>state['settingData'].settings);
+  const stripePromise = loadStripe(settingData?.STRIPE_PK);
   const params = useParams();
   const campaign_id = params["id"];
    

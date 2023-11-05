@@ -208,7 +208,13 @@ const Landing = () => {
                             </Link>
                           </div>
                           <div className="donateDesc">
-                            <h5>{itemValue.title}</h5>
+                            <h5><Link
+                                to={"#"}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  toDetailsPage(itemValue.id);
+                                }}
+                              >{itemValue.title}</Link></h5>
                             <p>
                               {truncateText(itemValue?.fundraising_for, 100)}
                             </p>
@@ -240,7 +246,7 @@ const Landing = () => {
                                 size="small"
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  toDonationPage(itemValue.id);
+                                  toDetailsPage(itemValue.id);
                                 }}
                               >
                                 DONATE NOW

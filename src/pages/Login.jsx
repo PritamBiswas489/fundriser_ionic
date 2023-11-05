@@ -21,6 +21,7 @@ import useLocalStorage from "../hook/useLocalStorage";
 import { userDataActions } from "../store/redux/user-data-slice";
 import { userAccountDataActions } from "../store/redux/user-account-data";
 import { useDispatch, useSelector } from "react-redux";
+import ForgotPasswordPopup from "../components/ForgotPasswordPopup";
 
 const Login = () => {
   const router = useIonRouter();
@@ -28,6 +29,15 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const openForgotPasswordPopup = () => {
+    setIsForgotPasswordOpen(true);
+  };
+  const closeForgotPasswordPopup = () => {
+    setIsForgotPasswordOpen(false);
+  };
+
 
   const user_id = useSelector((state) => state["userData"].user_id);
   useEffect(()=>{
@@ -153,7 +163,10 @@ const Login = () => {
         clearLoginError();
         presentToast('middle','Login failed.');
     }
-  },[loginError])
+  },[loginError]);
+
+   
+
   return (
     <>
       <IonPage>
@@ -189,6 +202,7 @@ const Login = () => {
                   style={{ color: "black" }}
                   class="loginInput"
                   type={showPassword ? "text" : "password"}
+                  placeholder="Enter password"
                   value={password}
                   onIonChange={(e) => setPassword(e.detail.value)}
                 />
@@ -198,16 +212,18 @@ const Login = () => {
                     position: "absolute",
                     right: 10,
                     color: "#60bc40",
-                    bottom: 4,
+                    bottom: 20,
                     zIndex: 9999999999,
                     cursor: "pointer",
                     fontSize: 21,
                   }}
                   onClick={togglePasswordVisibility}
                 >
-                  <IonIcon icon={showPassword ? eyeOff : eye} />
+                  <IonIcon icon={showPassword ? eye : eyeOff} />
                 </span>
+                <Link to={"#"} onClick={openForgotPasswordPopup}>Forget password</Link>
               </div>
+              
 
               <div className="inputArea">
                 <IonButton
@@ -235,7 +251,9 @@ const Login = () => {
             </div>
           </div>
         </IonContent>
+        
       </IonPage>
+      <ForgotPasswordPopup isOpen={isForgotPasswordOpen} onClose={closeForgotPasswordPopup} />
     </>
   );
 };

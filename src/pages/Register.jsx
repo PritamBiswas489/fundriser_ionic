@@ -11,11 +11,10 @@ import {
   IonTextarea,
   IonSelect,
   IonSelectOption,
+  IonIcon,
 } from "@ionic/react";
 import { Link } from "react-router-dom";
-import { HiOutlineUser } from "react-icons/hi";
-import { CiMobile4 } from "react-icons/ci";
-import { BsEnvelope } from "react-icons/bs";
+import { eye, eyeOff } from "ionicons/icons";
 import { useIonRouter } from "@ionic/react";
 import { useIonToast } from "@ionic/react";
 import { useHttpClient } from "../hook/http-hook";
@@ -26,17 +25,30 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { countryDataActions } from "../store/redux/country-data-slice";
 import { parsePhoneNumber } from "react-phone-number-input";
+import useContentModal from "../hook/useContentModal";
 
 const Register = () => {
   const dispatch = useDispatch();
   const router = useIonRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const {openModal:TcOpenModal, closeModal:TcCloseModal, ContentModal:TcContentModal} = useContentModal();
+  const {openModal:PvOpenModal, closeModal:PvCloseModal, ContentModal:PvContentModal} = useContentModal();
+
+  const settingData = useSelector(state=>state['settingData'].settings);  
+
+
   const [formInputData, setFormInputData] = useState({
-    firstName:'',
-    lastName:'',
-    email:'',
-    country:231,
-    phoneNumber:'',
-    address:''
+    firstName: "",
+    lastName: "",
+    email: "",
+    country: 231,
+    phoneNumber: "",
+    address: "",
+    zip: "",
+    password: "",
   });
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckboxChange = (event) => {
@@ -83,8 +95,6 @@ const Register = () => {
     }
   }, [countries]);
 
-   
-
   const setPhoneNumber = (data) => {
     setData({ phoneNumber: data });
   };
@@ -109,36 +119,51 @@ const Register = () => {
     clearError: accountDataError,
   } = useHttpClient();
 
-  const signupProcess = async ()=>{
-     if(formInputData.firstName.trim() === ''){
-        presentToast("middle","First name required");
-        return;
-     }
-     if(formInputData.lastName.trim() === ''){
-       presentToast("middle","Last name required");
-       return;
+  const signupProcess = async () => {
+    if (formInputData.firstName.trim() === "") {
+      presentToast("middle", "First name required");
+      return;
     }
-    if(formInputData.email.trim() === ''){
-        presentToast("middle","Email required");
-        return;
-     }
-     if (!isValidEmail(formInputData.email)) {
-        presentToast("middle", "Enter valid email address");
-        return;
-      }
-    if(formInputData.phoneNumber === '' || typeof formInputData.phoneNumber ==='undefined'){
-       presentToast("middle","Phone number required");
-       return;
+    if (formInputData.lastName.trim() === "") {
+      presentToast("middle", "Last name required");
+      return;
     }
-    if(formInputData.address.trim() === ''){
-       presentToast("middle","Address required");
-       return;
+    if (formInputData.email.trim() === "") {
+      presentToast("middle", "Email required");
+      return;
     }
-    if(isChecked === false){
-        presentToast("middle","Checked terms and conditions");
-        return;
+    if (!isValidEmail(formInputData.email)) {
+      presentToast("middle", "Enter valid email address");
+      return;
     }
-    
+    if (
+      formInputData.phoneNumber === "" ||
+      typeof formInputData.phoneNumber === "undefined"
+    ) {
+      presentToast("middle", "Phone number required");
+      return;
+    }
+    if (formInputData.address.trim() === "") {
+      presentToast("middle", "Address required");
+      return;
+    }
+    if (formInputData.zip.trim() === "") {
+      presentToast("middle", "Address required");
+      return;
+    }
+    if (formInputData.password === "") {
+      presentToast("middle", "Enter new password");
+      return;
+    }
+    if (formInputData.password.length < 6) {
+      presentToast("middle", "New password length equal or greater than 6");
+      return;
+    }
+    if (isChecked === false) {
+      presentToast("middle", "Checked terms and conditions");
+      return;
+    }
+
     const parse = parsePhoneNumber(formInputData.phoneNumber);
     const { countryCallingCode, nationalNumber } = parse;
     formInputData.countryCallingCode = countryCallingCode;
@@ -150,29 +175,27 @@ const Register = () => {
       "POST",
       formData
     );
-   
-      if (typeof responseData!=='undefined' && responseData?.success) {
-         
-         presentToast("middle", responseData.message);
-         setFormInputData({
-            firstName:'',
-            lastName:'',
-            email:'',
-            country:231,
-            phoneNumber:'',
-            address:''
-          });
-        setIsChecked(false);
-         router.push("/login", "forward", "push");
-      }  else if (accountDataSaveError) {
-             console.log(accountDataSaveError);
-            if (responseData?.message) {
-                presentToast("middle", responseData.message);
-            }else{
-                presentToast("middle", "Register update failed.");
-            }
+
+    if (typeof responseData !== "undefined" && responseData?.success) {
+      presentToast("middle", responseData.message);
+      setFormInputData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        country: 231,
+        phoneNumber: "",
+        address: "",
+      });
+      setIsChecked(false);
+      router.push("/login", "forward", "push");
+    } else if (accountDataSaveError) {
+      if (responseData?.message) {
+        presentToast("middle", responseData.message);
+      } else {
+        presentToast("middle", "Register update failed.");
       }
-  }
+    }
+  };
   return (
     <>
       <IonPage>
@@ -267,6 +290,46 @@ const Register = () => {
                   }}
                 />
               </div>
+
+              <div className="inputArea">
+                <IonLabel>
+                  Zip <span style={{ color: "red" }}>*</span>
+                </IonLabel>
+                <IonInput
+                  value={formInputData?.zip}
+                  onIonInput={(e) => {
+                    setData({ zip: e.detail.value });
+                  }}
+                />
+              </div>
+
+              <div className="inputArea" style={{ marginTop: 5 }}>
+                <IonLabel>
+                  Password <span style={{ color: "red" }}>*</span>
+                </IonLabel>
+                <IonInput
+                  type={showPassword ? "text" : "password"}
+                  value={formInputData?.password}
+                  onIonInput={(e) => {
+                    setData({ password: e.detail.value });
+                  }}
+                />
+                <span
+                  style={{
+                    position: "absolute",
+                    right: 10,
+                    color: "#60bc40",
+                    bottom: 4,
+                    zIndex: 9999999999,
+                    cursor: "pointer",
+                    fontSize: 21,
+                  }}
+                  onClick={togglePasswordVisibility}
+                >
+                  <IonIcon icon={showPassword ? eye : eyeOff} />
+                </span>
+              </div>
+
               <div className="inputArea">
                 <IonItem>
                   <IonCheckbox
@@ -275,16 +338,19 @@ const Register = () => {
                     slot="start"
                   ></IonCheckbox>
                   <IonLabel>
-                    I read and agree to <Link to={"/"}>Term & Conditions</Link>{" "}
+                    I read and agree to <Link to={"#"} onClick={TcOpenModal}>Term & Conditions</Link>{" "}
                     <br />
-                    and <Link to={"/"}>Privacy Policy</Link>
+                    and <Link to={"#"} onClick={PvOpenModal}>Privacy Policy</Link>
                   </IonLabel>
                 </IonItem>
               </div>
               <div className="inputArea">
-                <IonButton 
-                 disabled={accountDataSaveLoading}
-                onClick={signupProcess} color="primary" expand="block">
+                <IonButton
+                  disabled={accountDataSaveLoading}
+                  onClick={signupProcess}
+                  color="primary"
+                  expand="block"
+                >
                   {accountDataSaveLoading ? "Processing..." : "Sign Up"}
                 </IonButton>
               </div>
@@ -297,6 +363,8 @@ const Register = () => {
           </div>
         </IonContent>
       </IonPage>
+      <TcContentModal content={settingData?.termsandconditions?.content} title={settingData?.termsandconditions?.title}></TcContentModal>
+      <PvContentModal content={settingData?.privacypolicy?.content} title={settingData?.privacypolicy?.title}></PvContentModal>
     </>
   );
 };

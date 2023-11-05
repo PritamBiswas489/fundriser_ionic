@@ -48,10 +48,12 @@ import { useHttpClient } from "./hook/http-hook";
 import { API_BASE_URL } from "./config";
 import { userDataActions } from "./store/redux/user-data-slice";
 import { userAccountDataActions } from "./store/redux/user-account-data";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useIonRouter } from "@ionic/react";
 import Logout from "./pages/Logout";
+import AccountChangePassword from "./pages/AccountChangePassword";
+import { settingDataActions } from "./store/redux/settings-data-slice";
 
 <link
   href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -63,8 +65,12 @@ setupIonicReact();
 const App = () => {
   const dispatch = useDispatch();
   const router = useIonRouter();
-  const [showLoader, setShowLoader] = useState(false);
- 
+  const [showLoader, setShowLoader] = useState(true);
+  const [userCheckFinished, setUserCheckFinished] = useState(false);
+  const [settingCheckFinished, setSettingCheckFinished] = useState(false);
+  const user_id = useSelector((state) => state["userData"].user_id);
+  const settingData = useSelector(state=>state['settingData'].settings);  
+
   const [value, saveValueToLocalStorage, clearValueFromLocalStorage] =
     useLocalStorage("useLogin", {});
   const data = JSON.parse(value);
@@ -76,10 +82,10 @@ const App = () => {
     clearError: checkingClearError,
   } = useHttpClient();
 
-  const updateState = (d) =>{
+  const updateState = (d) => {
     const data = d?.user;
     const main = d?.main;
-     
+
     dispatch(
       userAccountDataActions.setData({
         field: "firstName",
@@ -95,7 +101,7 @@ const App = () => {
     dispatch(
       userAccountDataActions.setData({
         field: "phoneNumber",
-        data: '+'+data?.phone_code+data?.phone_number,
+        data: "+" + data?.phone_code + data?.phone_number,
       })
     );
     dispatch(
@@ -120,64 +126,104 @@ const App = () => {
     dispatch(
       userAccountDataActions.setData({
         field: "user",
-        data:  main,
+        data: main,
       })
     );
-
 
     dispatch(
       userAccountDataActions.setData({ field: "isFetched", data: true })
     );
-  }  
+  };
 
-  const checkinguser = async ()=>{
+  const checkinguser = async () => {
     if (data?.user_id) {
-      setShowLoader(true);
-      
+      dispatch(
+        userDataActions.setData({ field: "user_id", data: data?.user_id })
+      );
+      dispatch(userDataActions.setData({ field: "token", data: data?.token }));
       //=========== verify user account =============================//
-      const searchValue = { user_id : data?.user_id };
+      const searchValue = { user_id: data?.user_id };
       const queryString = new URLSearchParams(searchValue).toString();
       const responseData = await checkingFetch(
         `${API_BASE_URL}checkingUser?${queryString}`,
-        'GET',
+        "GET",
         null,
         {
-          'Authorization': `Bearer ${data?.token}`,
-          'Content-Type': 'application/json', // Adjust the content type if needed
+          Authorization: `Bearer ${data?.token}`,
+          "Content-Type": "application/json", // Adjust the content type if needed
           // Add any other headers you need
-        },
+        }
       );
-      if(responseData?.main?.id){
-        setShowLoader(false);
-        dispatch(userDataActions.setData({field:'user_id', data:responseData?.main?.id}));
-        dispatch(userDataActions.setData({field:'token', data:data?.token}));
+      if (responseData?.main?.id) {
+        setUserCheckFinished(true);
+        dispatch(
+          userDataActions.setData({
+            field: "user_id",
+            data: responseData?.main?.id,
+          })
+        );
+        dispatch(
+          userDataActions.setData({ field: "token", data: data?.token })
+        );
         updateState(responseData);
-      }else if(typeof responseData!=='undefined'
-      && typeof responseData.success!=='undefined' && 
-      responseData.success===false){
+      } else if (
+        typeof responseData !== "undefined" &&
+        typeof responseData.success !== "undefined" &&
+        responseData.success === false
+      ) {
         clearValueFromLocalStorage();
-        dispatch(userDataActions.setData({field:'user_id', data:0}));
-        dispatch(userDataActions.setData({field:'token', data:''}));
+        dispatch(userDataActions.setData({ field: "user_id", data: 0 }));
+        dispatch(userDataActions.setData({ field: "token", data: "" }));
         dispatch(userAccountDataActions.resetState());
-        setShowLoader(false);
-
+        setUserCheckFinished(true);
       }
+    } else {
+      setUserCheckFinished(true);
     }
-  }
+  };
+  const {
+    isLoading: siteSettingsLoading,
+    error: siteSettingsError,
+    sendRequest: siteSettingsFetch,
+    clearError: siteSettingsClearError,
+  } = useHttpClient();
 
+  const getSiteSettings = async () => {
+    const responseData = await siteSettingsFetch(
+      `${API_BASE_URL}get-site-settings`,
+      "GET",
+      null,
+      {
+        "Content-Type": "application/json", // Adjust the content type if needed
+        // Add any other headers you need
+      }
+    );
+    if (typeof responseData !== "undefined" && responseData?.STRIPE_PK) {
+      dispatch(settingDataActions.setData({field:'settings',data:responseData}))
+      setSettingCheckFinished(true);
+    } else if (siteSettingsError) {
+    }
+  };
 
-  useEffect(()=>{
-    checkinguser()
-  },[]);
+  useEffect(() => {
+    if (userCheckFinished && settingCheckFinished) {
+      setShowLoader(false);
+    }
+  }, [userCheckFinished, settingCheckFinished]);
 
-   useEffect(()=>{
-    if(checkingError){
-      dispatch(userDataActions.setData({field:'user_id', data:0}));
-      dispatch(userDataActions.setData({field:'token', data:''}));
+  useEffect(() => {
+    checkinguser();
+    getSiteSettings();
+  }, []);
+
+  useEffect(() => {
+    if (checkingError) {
+      dispatch(userDataActions.setData({ field: "user_id", data: 0 }));
+      dispatch(userDataActions.setData({ field: "token", data: "" }));
       dispatch(userAccountDataActions.resetState());
       checkingClearError();
     }
-   },[checkingError])
+  }, [checkingError]);
   return (
     <IonApp color="light">
       <IonReactRouter>
@@ -214,28 +260,55 @@ const App = () => {
             <Donation />
           </Route>
           <Route exact path="/payment-stripe/:id">
-            <StripePayment />
+           {settingData?.STRIPE_PK && <StripePayment /> } 
           </Route>
           <Route exact path="/test-paypal">
             <TestPayPalPayment />
           </Route>
           <Route exact path="/paypal-payment/:id">
-            <PayPalPayment />
+             {settingData?.PAYPAL_CLIENT_ID && <PayPalPayment /> } 
           </Route>
           <Route exact path="/account-dashboard">
-            <AccountDashboard />
+            {parseInt(user_id) === 0 ? (
+              <Redirect to="/login" />
+            ) : (
+              <AccountDashboard />
+            )}
           </Route>
           <Route exact path="/account-your-donation">
-            <AccountYourDonation />
+            {parseInt(user_id) === 0 ? (
+              <Redirect to="/login" />
+            ) : (
+              <AccountYourDonation />
+            )}
           </Route>
           <Route exact path="/account-donation-list">
-            <AccountDonationList />
+            {parseInt(user_id) === 0 ? (
+              <Redirect to="/login" />
+            ) : (
+              <AccountDonationList />
+            )}
           </Route>
           <Route exact path="/account-payment-list">
-            <AccountPaymentList />
+            {parseInt(user_id) === 0 ? (
+              <Redirect to="/login" />
+            ) : (
+              <AccountPaymentList />
+            )}
           </Route>
           <Route exact path="/account-profile">
-            <AccountProfile />
+            {parseInt(user_id) === 0 ? (
+              <Redirect to="/login" />
+            ) : (
+              <AccountProfile />
+            )}
+          </Route>
+          <Route exact path="/change-password">
+            {parseInt(user_id) === 0 ? (
+              <Redirect to="/login" />
+            ) : (
+              <AccountChangePassword />
+            )}
           </Route>
           <Route exact path="/logout">
             <Logout />

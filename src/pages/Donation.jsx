@@ -52,6 +52,11 @@ const Donation = () => {
   const [value, saveValueToLocalStorage, clearValueFromLocalStorage] =
     useLocalStorage("donationFormData", {});
 
+
+  const settingData = useSelector(state=>state['settingData'].settings);  
+
+  
+
   let saveLocalData = {};
   if (value != "") {
     saveLocalData = JSON.parse(value);
@@ -245,6 +250,24 @@ const Donation = () => {
     return emailPattern.test(email);
   }
   const processPayment = (gateway) => {
+    if (gateway === "stripe") {
+      if(!settingData?.STRIPE_PK){
+        presentToast("middle", "Credit card payment not working for now try again later");
+        return;
+      }
+
+    }
+    if (gateway === "paypal") {
+      if(!settingData?.PAYPAL_CLIENT_ID){
+        presentToast("middle", "Paypal payment not working for now try again later");
+        return;
+      }
+
+    }
+    if(parseFloat(totalDonationAmount) === 0){
+      presentToast("middle", "Cant't donate zero amount");
+      return;
+    }
     if (personName.trim() === "" || personName.length < 3) {
       presentToast("middle", "Enter name minimum 3 digits");
       return;

@@ -22,9 +22,11 @@ import { chevronBackOutline, personCircle } from "ionicons/icons";
 import { useIonAlert } from "@ionic/react";
 import { useIonRouter } from "@ionic/react";
 import useLocalStorage from "../hook/useLocalStorage";
-import Menu from "../components/Menu";
+import { useSelector } from "react-redux";
+ 
 
 const PayPalPayment = () => {
+  const settingData = useSelector(state=>state['settingData'].settings);
   const params = useParams();
   const campaign_id = params["id"];
   const [paypalLoaded, setPaypalLoaded] = useState(false);
@@ -139,7 +141,7 @@ const PayPalPayment = () => {
   }, [campaign_id]);
 
   const PayPalConfig = {
-    clientId: PAYPAL_CLIENT_ID,
+    clientId: settingData.PAYPAL_CLIENT_ID,
     currency: "USD", // Change to your preferred currency
   };
 
