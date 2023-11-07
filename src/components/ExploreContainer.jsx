@@ -30,6 +30,9 @@ const ExploreContainer  = () => {
                     <div className="homeImg">
                         <IonImg src={"../assets/images/home-img.png"} alt="" />
                     </div>
+                    <div className="homeImg">
+                        <IonImg src={"../assets/images/logo.png"} alt="" />
+                    </div>
                     <div className="w-100 d-flex justify-content-between align-items-center">
                       {showbutton && (<IonButton className="skip" onClick={goToHomePage}>
                             Skip to home

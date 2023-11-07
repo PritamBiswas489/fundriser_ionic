@@ -26,6 +26,7 @@ import PhoneInput from "react-phone-number-input";
 import { countryDataActions } from "../store/redux/country-data-slice";
 import { parsePhoneNumber } from "react-phone-number-input";
 import useContentModal from "../hook/useContentModal";
+import { IonRouterLink } from "@ionic/react";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -357,9 +358,16 @@ const Register = () => {
             </div>
             <div className="anAccount">
               <p>
-                Alleady hav an Account? <Link to={"./Login"}>Log In</Link>
+                Alleady hav an Account? <IonRouterLink routerLink="/login">
+                  Login
+                </IonRouterLink>
               </p>
             </div>
+            <div className="anAccount" style={{marginTop:20}}>
+                <IonRouterLink routerLink="/landing">
+                  Go to Home
+                </IonRouterLink>
+              </div>
           </div>
         </IonContent>
       </IonPage>

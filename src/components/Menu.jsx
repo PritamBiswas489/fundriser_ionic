@@ -55,6 +55,9 @@ export default function Menu() {
             <IonItem routerLink="/change-password">
               <IonLabel>Change Password</IonLabel>
             </IonItem>
+            <IonItem routerLink="/listing">
+              <IonLabel>Browse Fundraiser</IonLabel>
+            </IonItem>
             <IonItem routerLink="/logout">
               <IonLabel>Logout</IonLabel>
             </IonItem>
@@ -66,6 +69,9 @@ export default function Menu() {
             </IonItem>
             <IonItem routerLink="/register">
               <IonLabel>Register</IonLabel>
+            </IonItem>
+            <IonItem routerLink="/listing">
+              <IonLabel>Browse Fundraiser</IonLabel>
             </IonItem>
           </IonList>)}
           

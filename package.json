@@ -12,6 +12,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@capacitor-community/facebook-login": "^5.0.3",
     "@capacitor-community/stripe": "^5.2.0",
     "@capacitor/android": "5.4.2",
     "@capacitor/app": "5.0.6",
@@ -35,6 +36,7 @@
     "jquery": "^3.6.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-facebook": "^9.0.12",
     "react-icons": "^4.8.0",
     "react-lazy-load-image-component": "^1.6.0",
     "react-owl-carousel": "^2.3.3",

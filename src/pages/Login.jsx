@@ -22,6 +22,19 @@ import { userDataActions } from "../store/redux/user-data-slice";
 import { userAccountDataActions } from "../store/redux/user-account-data";
 import { useDispatch, useSelector } from "react-redux";
 import ForgotPasswordPopup from "../components/ForgotPasswordPopup";
+import { IonRouterLink } from "@ionic/react";
+import { FacebookLogin  } from '@capacitor-community/facebook-login';
+ 
+
+const initFacebookLogin = async () => {
+  await FacebookLogin.initialize({
+    appId: '1712990242530062',
+  });
+};
+
+initFacebookLogin();
+
+ 
 
 const Login = () => {
   const router = useIonRouter();
@@ -38,13 +51,12 @@ const Login = () => {
     setIsForgotPasswordOpen(false);
   };
 
-
   const user_id = useSelector((state) => state["userData"].user_id);
-  useEffect(()=>{
-      if(parseInt(user_id) > 0){
-        router.push("/landing", "forward", "refresh");
-      }
-  },[user_id])
+  useEffect(() => {
+    if (parseInt(user_id) > 0) {
+      router.push("/landing", "forward", "refresh");
+    }
+  }, [user_id]);
 
   const [value, saveValueToLocalStorage, clearValueFromLocalStorage] =
     useLocalStorage("useLogin", {});
@@ -80,92 +92,127 @@ const Login = () => {
   } = useHttpClient();
 
   const loginPorcessing = async () => {
-    if(email.trim() ===''){
-        presentToast('middle','Enter email address');
-        return;
+    if (email.trim() === "") {
+      presentToast("middle", "Enter email address");
+      return;
     }
     if (!isValidEmail(email)) {
-        presentToast("middle", "Enter valid email address");
-        return;
-      }
-    if(password ===''){
-        presentToast('middle','Enter password');
-        return;
+      presentToast("middle", "Enter valid email address");
+      return;
+    }
+    if (password === "") {
+      presentToast("middle", "Enter password");
+      return;
     }
     const responseData = await loginProcessingFetch(
-        `${API_BASE_URL}login`,
-        'POST',
-        JSON.stringify({email,password}),
-        {
-            "Content-Type": "application/json" 
-        }
-      );
-      if(responseData.access_token){
-          const r = {
-              user_id : responseData.user.id,
-              token : responseData.access_token
-          };
-         saveValueToLocalStorage(JSON.stringify(r));
-         dispatch(userDataActions.setData({field:'user_id', data:responseData.user.id}));
-         dispatch(userDataActions.setData({field:'token', data:responseData.access_token}));
-
-         dispatch(
-          userAccountDataActions.setData({
-            field: "firstName",
-            data: responseData?.profile?.first_name,
-          })
-        );
-        dispatch(
-          userAccountDataActions.setData({
-            field: "lastName",
-            data: responseData?.profile?.last_name,
-          })
-        );
-        dispatch(
-          userAccountDataActions.setData({
-            field: "phoneNumber",
-            data: '+'+responseData?.profile?.phone_code+responseData?.profile?.phone_number,
-          })
-        );
-        dispatch(
-          userAccountDataActions.setData({
-            field: "country",
-            data: responseData?.profile?.country_id_fk,
-          })
-        );
-        dispatch(
-          userAccountDataActions.setData({
-            field: "address",
-            data: responseData?.profile?.address,
-          })
-        );
-        dispatch(
-          userAccountDataActions.setData({
-            field: "zip",
-            data: responseData?.profile?.zip,
-          })
-        );
-        dispatch(
-          userAccountDataActions.setData({
-            field: "user",
-            data: responseData?.user,
-          })
-        );
-        dispatch(
-          userAccountDataActions.setData({ field: "isFetched", data: true })
-        );
-
-         router.push("/landing", "forward", "refresh");
+      `${API_BASE_URL}login`,
+      "POST",
+      JSON.stringify({ email, password }),
+      {
+        "Content-Type": "application/json",
       }
-  };
-  useEffect(()=>{
-    if(loginError){
-        clearLoginError();
-        presentToast('middle','Login failed.');
-    }
-  },[loginError]);
+    );
+    if (responseData.access_token) {
+      const r = {
+        user_id: responseData.user.id,
+        token: responseData.access_token,
+      };
+      saveValueToLocalStorage(JSON.stringify(r));
+      dispatch(
+        userDataActions.setData({
+          field: "user_id",
+          data: responseData.user.id,
+        })
+      );
+      dispatch(
+        userDataActions.setData({
+          field: "token",
+          data: responseData.access_token,
+        })
+      );
 
-   
+      dispatch(
+        userAccountDataActions.setData({
+          field: "firstName",
+          data: responseData?.profile?.first_name,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "lastName",
+          data: responseData?.profile?.last_name,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "phoneNumber",
+          data:
+            "+" +
+            responseData?.profile?.phone_code +
+            responseData?.profile?.phone_number,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "country",
+          data: responseData?.profile?.country_id_fk,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "address",
+          data: responseData?.profile?.address,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "zip",
+          data: responseData?.profile?.zip,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "user",
+          data: responseData?.user,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({ field: "isFetched", data: true })
+      );
+
+      router.push("/landing", "forward", "refresh");
+    }
+  };
+  useEffect(() => {
+    if (loginError) {
+      clearLoginError();
+      presentToast("middle", "Login failed.");
+    }
+  }, [loginError]);
+  
+
+  const handleFacebookLogin = async () => {
+    const options = {
+      permissions: ['email', 'public_profile'],
+      webUseFallback: true, // Use web-based login on unsupported platforms
+    };
+
+    try {
+      const result = await FacebookLogin.login(options);
+      if (result.accessToken) {
+        // Successfully logged in with Facebook, you can now use the access token.
+         alert(result.accessToken);
+      } else {
+         alert('ERROR ONE');
+         // Handle login error
+         console.error('Facebook Login Error:', result.error);
+      }
+    } catch (error) {
+       alert('ERROR TWO');
+       //Handle any other errors
+       console.error('An error occurred during Facebook Login:', error);
+    }
+  };
 
   return (
     <>
@@ -221,9 +268,10 @@ const Login = () => {
                 >
                   <IonIcon icon={showPassword ? eye : eyeOff} />
                 </span>
-                <Link to={"#"} onClick={openForgotPasswordPopup}>Forget password</Link>
+                <Link to={"#"} onClick={openForgotPasswordPopup}>
+                  Forget password
+                </Link>
               </div>
-              
 
               <div className="inputArea">
                 <IonButton
@@ -231,12 +279,12 @@ const Login = () => {
                   color="primary"
                   expand="block"
                 >
-                {loginLoading ? 'Processing'  : 'Login'}  
+                  {loginLoading ? "Processing" : "Login"}
                 </IonButton>
               </div>
               <div className="or">Or</div>
               <div className="inputArea">
-                <IonButton className="conFb" expand="block">
+                <IonButton onClick={handleFacebookLogin} className="conFb" expand="block">
                   <span className="fbIcon">
                     <FaFacebookSquare />
                   </span>{" "}
@@ -245,15 +293,24 @@ const Login = () => {
               </div>
               <div className="anAccount">
                 <p>
-                  Don’t hav an Account? <Link to={"./Register"}>Sign Up</Link>
+                  Don’t hav an Account? <IonRouterLink routerLink="/register">
+                  Sign up
+                </IonRouterLink>
                 </p>
+              </div>
+              <div className="anAccount" style={{marginTop:20}}>
+                <IonRouterLink routerLink="/landing">
+                  Go to Home
+                </IonRouterLink>
               </div>
             </div>
           </div>
         </IonContent>
-        
       </IonPage>
-      <ForgotPasswordPopup isOpen={isForgotPasswordOpen} onClose={closeForgotPasswordPopup} />
+      <ForgotPasswordPopup
+        isOpen={isForgotPasswordOpen}
+        onClose={closeForgotPasswordPopup}
+      />
     </>
   );
 };

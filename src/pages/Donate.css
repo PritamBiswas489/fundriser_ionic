@@ -9,6 +9,7 @@
     bottom: 70px; /* Adjust the desired distance from the bottom */
     right: 20px; /* Adjust the desired distance from the right */
     z-index: 999; /* Ensure it's above other elements */
+  
   }
   
 .createNews h6 {
@@ -48,3 +49,20 @@
 .swiper-button-prev, .swiper-button-next{
     color: #5ab843 !important;
 }
+ 
+.donateTextIcon {
+    position: relative;
+}
+.donateText {
+    position: absolute;
+    top: -7px;
+    left: 1px;
+    transform: scale(1.4);
+}
+
+.donateTextIcon {
+    margin: 100px;
+}
+  
+  
+  

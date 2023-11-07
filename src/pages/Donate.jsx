@@ -21,7 +21,11 @@ import { logoUsd, addCircle } from "ionicons/icons";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
-import { chevronBackOutline, personCircle, cloudDownloadOutline } from "ionicons/icons";
+import {
+  chevronBackOutline,
+  personCircle,
+  cloudDownloadOutline,
+} from "ionicons/icons";
 
 import { useIonRouter } from "@ionic/react";
 import Footer from "../components/Footer";
@@ -44,7 +48,7 @@ import { Navigation } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import AddComment from "../components/AddComment";
-import { Share } from '@capacitor/share';
+import { Share } from "@capacitor/share";
 import { SITE_URL } from "../config";
 import { useIonToast } from "@ionic/react";
 
@@ -77,8 +81,6 @@ const Donate = () => {
   const [details, setDetails] = useState({});
   const [campaignImages, setCampaignImages] = useState([]);
   const [campaignDocuments, setCampaignDocuments] = useState([]);
-
-
 
   // campaignDocuments
   //alert(campaign_id);
@@ -133,55 +135,53 @@ const Donate = () => {
   const closeAddCommentPopup = () => {
     setShowModal(false);
   };
-  const [selectedIndex,setSelectedIndex] = useState(0);
-  const handleTabSelect = (index) =>{
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const handleTabSelect = (index) => {
     setSelectedIndex(index);
-  }
+  };
 
-  const [showCommentElements,setShowCommentElements]  =  useState(false);
+  const [showCommentElements, setShowCommentElements] = useState(false);
 
-  useEffect(()=>{
-    if(selectedIndex === 2){
+  useEffect(() => {
+    if (selectedIndex === 2) {
       setShowCommentElements(true);
-    }else{
+    } else {
       setShowCommentElements(false);
     }
-
-  },[selectedIndex])
+  }, [selectedIndex]);
 
   let percentage = 0;
   const totalRaise = parseFloat(details?.totalAmountRaised);
   if (details?.goal) {
     percentage = (parseFloat(totalRaise) * 100) / details.goal;
   }
-   
-  const downloadFile = (documentLink)=>{
-    window.open(documentLink, '_blank');
-  }
+
+  const downloadFile = (documentLink) => {
+    window.open(documentLink, "_blank");
+  };
   async function openFirstMenu() {
     const menu = document.querySelector("ion-menu");
     menu.toggle();
   }
-  const shareContent = async (itemValue,e)=>{
+  const shareContent = async (itemValue, e) => {
     e.preventDefault();
     const shareOptions = {
       title: itemValue.title,
       text: truncateText(itemValue?.fundraising_for, 100),
-      url: SITE_URL+'donation/'+itemValue.slug,
-      dialogTitle: 'Share with friends',
+      url: SITE_URL + "donation/" + itemValue.slug,
+      dialogTitle: "Share with friends",
     };
     try {
       await Share.share(shareOptions);
-      presentToast('middle','Shared successfully');
+      presentToast("middle", "Shared successfully");
     } catch (error) {
-      presentToast('middle','Shared failed');
+      presentToast("middle", "Shared failed");
     }
-  }
-  
+  };
+
   return (
     <>
-     
-      <IonPage >
+      <IonPage>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
@@ -189,13 +189,13 @@ const Donate = () => {
             </IonButtons>
             <IonTitle>Donate</IonTitle>
             <IonButtons slot="end">
-            <IonButton onClick={openFirstMenu}>
+              <IonButton onClick={openFirstMenu}>
                 <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
               </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent  fullscreen={true}>
+        <IonContent fullscreen={true}>
           {fundRaiserLoading && <SkeletonLoader />}
 
           {details?.id && (
@@ -233,7 +233,12 @@ const Donate = () => {
                       </Link>
                     </li> */}
                     <li>
-                      <Link to={"/"} onClick={ shareContent.bind(this,details)} className="shareIcon">
+                      <Link
+                        to={"/"}
+                        style={{ fontSize: 18 }}
+                        onClick={shareContent.bind(this, details)}
+                        className="shareIcon"
+                      >
                         <FaShareAlt />
                       </Link>
                     </li>
@@ -257,7 +262,7 @@ const Donate = () => {
                     <Tab>Campaigner</Tab>
                     <Tab>Comments</Tab>
                     <Tab>Donators</Tab>
-                   {campaignDocuments.length > 0 ? <Tab>Files</Tab> : '' } 
+                    {campaignDocuments.length > 0 ? <Tab>Files</Tab> : ""}
                   </TabList>
 
                   <TabPanel>
@@ -281,34 +286,43 @@ const Donate = () => {
                   <TabPanel>
                     <Donators campaign_id={campaign_id} />
                   </TabPanel>
-                  {campaignDocuments.length > 0 ? <TabPanel>
-                    {campaignDocuments.map((documentLink,documentIndex)=>{
-                        return (<IonButton onClick={()=>downloadFile(documentLink)} fill="clear" color="primary">
-                        <IonIcon icon={cloudDownloadOutline} />{"  "}
-                        {`Document ${documentIndex+1}`}
-                      </IonButton>)
-
-                    })}
-                    
-
-                  </TabPanel> : ''} 
+                  {campaignDocuments.length > 0 ? (
+                    <TabPanel>
+                      {campaignDocuments.map((documentLink, documentIndex) => {
+                        return (
+                          <IonButton
+                            onClick={() => downloadFile(documentLink)}
+                            fill="clear"
+                            color="primary"
+                          >
+                            <IonIcon icon={cloudDownloadOutline} />
+                            {"  "}
+                            {`Document ${documentIndex + 1}`}
+                          </IonButton>
+                        );
+                      })}
+                    </TabPanel>
+                  ) : (
+                    ""
+                  )}
                 </Tabs>
               </div>
               <div className="donateNow "></div>
             </div>
           )}
         </IonContent>
-        {showCommentElements &&  <IonFab
-          vertical="bottom"
-          horizontal="start"
-          slot="fixed"
-          className="fixed-fab"
-        >
-          <IonFabButton>
-            <IonIcon icon={addCircle} onClick={openAddCommentPopUp} />
-          </IonFabButton>
-        </IonFab>}
-       
+        {showCommentElements && (
+          <IonFab
+            vertical="bottom"
+            horizontal="start"
+            slot="fixed"
+            className="fixed-fab"
+          >
+            <IonFabButton>
+              <IonIcon icon={addCircle} onClick={openAddCommentPopUp} />
+            </IonFabButton>
+          </IonFab>
+        )}
 
         <IonFab
           vertical="bottom"
@@ -316,16 +330,21 @@ const Donate = () => {
           slot="fixed"
           className="fixed-fab"
         >
+          <span className="donateText">
+            <IonImg src={"../assets/images/donate-curve.png"} alt="" />
+          </span>
           <IonFabButton onClick={donationPage}>
             <IonIcon icon={logoUsd} />
           </IonFabButton>
         </IonFab>
 
-        {showCommentElements && <AddComment
-        campaign_id={campaign_id}
-        closeAddCommentPopup={closeAddCommentPopup}
-        showModal={showModal}
-      />}
+        {showCommentElements && (
+          <AddComment
+            campaign_id={campaign_id}
+            closeAddCommentPopup={closeAddCommentPopup}
+            showModal={showModal}
+          />
+        )}
 
         <Footer />
       </IonPage>

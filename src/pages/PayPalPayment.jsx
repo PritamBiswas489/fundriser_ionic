@@ -229,12 +229,14 @@ const PayPalPayment = () => {
             <div className="paypal-button">
              
 
-              {paypalLoaded ? ( <PayPalScriptProvider options={PayPalConfig}>
+              {paypalLoaded ? ( <PayPalScriptProvider  options={PayPalConfig}>
                 <PayPalButtons
                   createOrder={createOrder}
                   onApprove={approveOrder}
                   onError={errorOrder}
-                  
+                  options={{
+                    disableFunding: 'paylater', // Disable the Pay Later funding source
+                  }}
                 />
               </PayPalScriptProvider>) : <SkeletonLoader/> }
               <IonLoading
