@@ -58,16 +58,12 @@ const AccountYourDonation = () => {
     getData();
   }, []);
 
-  
-
-
   async function openFirstMenu() {
     const menu = document.querySelector("ion-menu");
     menu.toggle();
   }
   return (
     <>
-      
       <IonPage>
         <IonHeader>
           <IonToolbar>
@@ -83,46 +79,45 @@ const AccountYourDonation = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
-        <IonRefresher slot="fixed" pullFactor={0.5} pullMin={100} pullMax={200} onIonRefresh={refreshContent}>
-          <IonRefresherContent></IonRefresherContent>
-        </IonRefresher>
+          <IonRefresher
+            slot="fixed"
+            pullFactor={0.5}
+            pullMin={100}
+            pullMax={200}
+            onIonRefresh={refreshContent}
+          >
+            <IonRefresherContent></IonRefresherContent>
+          </IonRefresher>
           {dataLoading && <SkeletonLoader />}
 
-          {resultData?.totalAmount ? (
-            <IonCard key={1}>
-              <IonCardHeader>
-                <IonCardTitle>${resultData?.totalAmount}</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent>Donated</IonCardContent>
-            </IonCard>
-          ) : ''}
-
-          {resultData?.withdrawn ? (
-            <IonCard key={2}>
-              <IonCardHeader>
-                <IonCardTitle>${resultData?.withdrawn}</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent>Withdrawn</IonCardContent>
-            </IonCard>
-          ):''}
-
-          {resultData?.interestPaid ? (
-            <IonCard key={3}>
-              <IonCardHeader>
-                <IonCardTitle>${resultData?.interestPaid}</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent>Processing Fees 10%</IonCardContent>
-            </IonCard>
-          ) : ''}
-
-          {resultData?.bananceLeft ? (
-            <IonCard key={4}>
-              <IonCardHeader>
-                <IonCardTitle>${resultData.bananceLeft}</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent>Balance Left</IonCardContent>
-            </IonCard>
-          ) : ''}
+          {!dataLoading && (
+            <>
+              <IonCard key={1}>
+                <IonCardHeader>
+                  <IonCardTitle>${(parseFloat(resultData?.totalAmount)).toFixed(2)}</IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>Donated</IonCardContent>
+              </IonCard>
+              <IonCard key={2}>
+                <IonCardHeader>
+                  <IonCardTitle>${(parseFloat(resultData?.withdrawn)).toFixed(2)}</IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>Withdrawn</IonCardContent>
+              </IonCard>
+              <IonCard key={3}>
+                <IonCardHeader>
+                  <IonCardTitle>${(parseFloat(resultData?.interestPaid)).toFixed(2)}</IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>Processing Fees 10%</IonCardContent>
+              </IonCard>
+              <IonCard key={4}>
+                <IonCardHeader>
+                  <IonCardTitle>${(parseFloat(resultData.bananceLeft)).toFixed(2)}</IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>Balance Left</IonCardContent>
+              </IonCard>
+            </>
+          )}
         </IonContent>
         <Footer />
       </IonPage>

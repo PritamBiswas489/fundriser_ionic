@@ -15,31 +15,21 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonCardContent,
-  IonRefresher,
-  IonRefresherContent,
+
   IonLoading
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import { chevronBackOutline, personCircle } from "ionicons/icons";
 import { useIonRouter } from "@ionic/react";
-import HomeBanner from "../components/homeBanner/HomeBanner";
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
 import Footer from "../components/Footer";
-import { search } from "ionicons/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { homeSearchFieldActions } from "../store/redux/home-search-field-slice";
-import { pageListingActions } from "../store/redux/page-listing-slice";
 import { API_BASE_URL, DATA_PER_PAGE } from "../config";
-import { homeListingActions } from "../store/redux/home-listing-slice";
 import { useHttpClient } from "../hook/http-hook";
 import SkeletonLoader from "../components/SkeletonLoader";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
-import Menu from "../components/Menu";
 import { startCampignDataActions } from "../store/redux/start-campaign-data-slice";
 import { startCampignModalActions } from "../store/redux/start-campaign-modal-slice";
+import NoData from "../components/NoData";
+
 
 const AccountDashboard = () => {
   const user_id = useSelector((state) => state["userData"].user_id);
@@ -169,7 +159,7 @@ const AccountDashboard = () => {
             <IonButtons slot="start">
               <IonBackButton icon={chevronBackOutline} />
             </IonButtons>
-            <IonTitle className="backTitle">Dashboard</IonTitle>
+            <IonTitle className="backTitle">My Campaigns</IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={openFirstMenu}>
                 <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
@@ -179,7 +169,7 @@ const AccountDashboard = () => {
         </IonHeader>
         <IonContent fullscreen={true}>
           {dataLoading && <SkeletonLoader/>}
-          {!dataLoading && resultData.length > 0 &&
+          {!dataLoading && resultData.length > 0 ?
             resultData.map((item, index) => (
               <IonCard key={index}>
                 <IonCardHeader>
@@ -190,7 +180,8 @@ const AccountDashboard = () => {
                  <div dangerouslySetInnerHTML={{__html:item?.description}}></div>
                 </IonCardContent>
               </IonCard>
-            ))}
+            )) : ( !dataLoading && <NoData message="No campaign found"/>
+          )}
             <IonLoading
                 isOpen={showIonLoader}
                 message={"Processing..."}

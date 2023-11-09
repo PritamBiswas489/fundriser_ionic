@@ -29,6 +29,7 @@ import { useHttpClient } from "../hook/http-hook";
 import SkeletonLoader from "../components/SkeletonLoader";
 import Menu from "../components/Menu";
 import AccountCampaignDonationListModal from "./AccountCampaignDonationListModal";
+import NoData from "../components/NoData";
 
 const AccountDonationList = () => {
   const user_id = useSelector((state) => state["userData"].user_id);
@@ -105,7 +106,7 @@ const AccountDonationList = () => {
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
           {dataLoading && <SkeletonLoader />}
-          {!dataLoading && resultData.length > 0 &&
+          {!dataLoading && resultData.length > 0 ?
             resultData.map((item, index) => (
               <IonCard key={index}>
                 <IonCardHeader>
@@ -115,7 +116,7 @@ const AccountDonationList = () => {
                   <Link to={"#"} onClick={showDonorListModal.bind(this,item.campaignID,item.title)}>{item?.title}</Link>
                 </IonCardContent>
               </IonCard>
-            ))}
+            )) : !dataLoading && <NoData message="No donation found"/>}
             <AccountCampaignDonationListModal selectedCampaignTitle={selectedCampaignTitle} setShowDonationListModal={setShowDonationListModal} selectedCampaignID={selectedCampaignID} showDonationListModal={showDonationListModal} />
         </IonContent>
         <Footer />

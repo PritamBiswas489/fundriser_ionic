@@ -28,6 +28,7 @@ import { useHttpClient } from "../hook/http-hook";
 import SkeletonLoader from "../components/SkeletonLoader";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Menu from "../components/Menu";
+import NoData from "../components/NoData";
 
 const AccountPaymentList = () => {
   const user_id = useSelector((state) => state["userData"].user_id);
@@ -98,7 +99,7 @@ const AccountPaymentList = () => {
           </IonRefresher>
           {dataLoading && <SkeletonLoader />}
 
-          {resultData.length > 0 &&
+          {!dataLoading && resultData.length > 0 ?
             resultData.map((item, index) => (
               <IonCard key={index}>
                 <IonCardHeader>
@@ -109,7 +110,7 @@ const AccountPaymentList = () => {
                 </IonCardHeader>
                 <IonCardContent>{item?.campaign?.title}</IonCardContent>
               </IonCard>
-            ))}
+            )) : !dataLoading && <NoData message="No payment found"/>}
         </IonContent>
         <Footer />
       </IonPage>
