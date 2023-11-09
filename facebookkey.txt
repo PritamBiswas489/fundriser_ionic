@@ -1,0 +1,11 @@
+https://developers.facebook.com/docs/facebook-login/android
+      
+keytool -exportcert -alias androiddebugkey -keystore "E:\ionic-fundriser\mykey.jks" | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" sha1 -binary | "PATH_TO_OPENSSL_LIBRARY\bin\openssl" base64
+      
+
+keytool -exportcert -alias key0 -keystore "E:\ionic-fundriser\mykey.jks" | openssl sha1 -binary | openssl base64
+
+
+https://www.npmjs.com/package/@capacitor-community/facebook-login
+
+keytool -list -v -keystore E:\ionic-fundriser\mykey.jks -alias key0

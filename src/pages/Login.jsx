@@ -7,6 +7,7 @@ import {
   IonInput,
   IonButton,
   IonIcon,
+  IonLoading
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import { BsEnvelope } from "react-icons/bs";
@@ -42,6 +43,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showFacebookLoginLoader, setFacebookLoginLoader] = useState(false);
 
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const openForgotPasswordPopup = () => {
@@ -189,28 +191,146 @@ const Login = () => {
       presentToast("middle", "Login failed.");
     }
   }, [loginError]);
-  
 
+  const {
+    isLoading: fbloginLoading,
+    error: fbloginError,
+    sendRequest: fbLoginProcessingFetch,
+    clearError: fbClearLoginError,
+  } = useHttpClient();
+  //processing facebook login
+  const processingFacebookLogin = async (data) => {
+    data.profileImage = data?.picture?.data?.url;
+    console.log(data);
+    const responseData = await fbLoginProcessingFetch(
+      `${API_BASE_URL}fblogin`,
+      "POST",
+      JSON.stringify(data),
+      {
+        "Content-Type": "application/json",
+      }
+    );
+    if (typeof responseData!=='undefined' && responseData?.access_token) {
+       
+      const r = {
+        user_id: responseData.user.id,
+        token: responseData.access_token,
+      };
+      saveValueToLocalStorage(JSON.stringify(r));
+      dispatch(
+        userDataActions.setData({
+          field: "user_id",
+          data: responseData.user.id,
+        })
+      );
+      dispatch(
+        userDataActions.setData({
+          field: "token",
+          data: responseData.access_token,
+        })
+      );
+
+      dispatch(
+        userAccountDataActions.setData({
+          field: "firstName",
+          data: responseData?.profile?.first_name,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "lastName",
+          data: responseData?.profile?.last_name,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "phoneNumber",
+          data:
+            "+" +
+            responseData?.profile?.phone_code +
+            responseData?.profile?.phone_number,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "country",
+          data: responseData?.profile?.country_id_fk,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "address",
+          data: responseData?.profile?.address,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "zip",
+          data: responseData?.profile?.zip,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({
+          field: "user",
+          data: responseData?.user,
+        })
+      );
+      dispatch(
+        userAccountDataActions.setData({ field: "isFetched", data: true })
+      );
+      setFacebookLoginLoader(false);
+      router.push("/landing", "forward", "refresh");
+    } 
+    setFacebookLoginLoader(false);
+    
+  }
+  useEffect(() => {
+    if (fbloginError) {
+      fbClearLoginError();
+      presentToast("middle", "Login failed.");
+    }
+  }, [fbloginError]);
+  const getUserEmail = async (accessToken) => {
+    setFacebookLoginLoader(true);
+    const url = `https://graph.facebook.com/v13.0/me?fields=name,email,first_name,last_name,picture&access_token=${accessToken}`;
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        const userEmail = data?.email;
+        if(userEmail){
+           processingFacebookLogin(data);
+        }else{
+            alert('Unable to login with facebook');
+            setFacebookLoginLoader(false);
+        }
+      } else {
+        alert('Unable to login with facebook');
+        console.error('Failed to fetch user email:', response.statusText);
+        setFacebookLoginLoader(false);
+      }
+    } catch (error) {
+      alert('Unable to login with facebook');
+      console.error('Error fetching user email:', error);
+      setFacebookLoginLoader(false);
+    }
+  };
+  
   const handleFacebookLogin = async () => {
     const options = {
       permissions: ['email', 'public_profile'],
       webUseFallback: true, // Use web-based login on unsupported platforms
     };
-
     try {
       const result = await FacebookLogin.login(options);
       if (result.accessToken) {
-        // Successfully logged in with Facebook, you can now use the access token.
-         alert(result.accessToken);
+        getUserEmail(result.accessToken.token);
       } else {
-         alert('ERROR ONE');
-         // Handle login error
-         console.error('Facebook Login Error:', result.error);
+         alert('Unable to login with facebook');
       }
     } catch (error) {
-       alert('ERROR TWO');
-       //Handle any other errors
-       console.error('An error occurred during Facebook Login:', error);
+        alert('Unable to login with facebook');
+
     }
   };
 
@@ -306,6 +426,10 @@ const Login = () => {
             </div>
           </div>
         </IonContent>
+        <IonLoading
+                isOpen={showFacebookLoginLoader}
+                message={"Processing facebook login..."}
+              />
       </IonPage>
       <ForgotPasswordPopup
         isOpen={isForgotPasswordOpen}
