@@ -15,6 +15,8 @@ import {
   IonSelect,
   IonSelectOption,
   IonTextarea,
+  IonLoading,
+  IonImg,
 } from "@ionic/react";
 import { chevronBackOutline, personCircle } from "ionicons/icons";
 import Footer from "../components/Footer";
@@ -28,9 +30,13 @@ import PhoneInput from "react-phone-number-input";
 import { userAccountDataActions } from "../store/redux/user-account-data";
 import { countryDataActions } from "../store/redux/country-data-slice";
 import { useIonToast } from "@ionic/react";
+ 
 
 const AccountProfile = () => {
   const dispatch = useDispatch();
+  const imageUploadRef = useRef();
+  const [showProfilePicUploadLoader, setShowProfilePicUploadLoader] =
+    useState(false);
   const [present] = useIonToast();
   const presentToast = (position, message) => {
     present({
@@ -58,7 +64,22 @@ const AccountProfile = () => {
   const country = useSelector((state) => state["userAccountData"].country);
   const address = useSelector((state) => state["userAccountData"].address);
   const zip = useSelector((state) => state["userAccountData"].zip);
+
+  const userData = useSelector((state) => state["userAccountData"].user);
+
+  
+
   const [formInputData, setFormInputData] = useState({});
+  const [profileImagePath, setProfileImagePath] = useState( 
+    "../assets/images/profilePicUpload.png"
+  );
+
+  useEffect(()=>{
+    if(userData?.profile_picture){
+      setProfileImagePath(userData?.profile_picture);
+    }
+
+  },[userData]);
 
   const {
     isLoading: dataLoading,
@@ -67,10 +88,10 @@ const AccountProfile = () => {
     clearError,
   } = useHttpClient();
 
-  const updateState = (d) =>{
+  const updateState = (d) => {
     const data = d?.user;
     const main = d?.main;
-     
+
     dispatch(
       userAccountDataActions.setData({
         field: "firstName",
@@ -86,7 +107,7 @@ const AccountProfile = () => {
     dispatch(
       userAccountDataActions.setData({
         field: "phoneNumber",
-        data: '+'+data?.phone_code+data?.phone_number,
+        data: "+" + data?.phone_code + data?.phone_number,
       })
     );
     dispatch(
@@ -111,15 +132,14 @@ const AccountProfile = () => {
     dispatch(
       userAccountDataActions.setData({
         field: "user",
-        data:  main,
+        data: main,
       })
     );
-
 
     dispatch(
       userAccountDataActions.setData({ field: "isFetched", data: true })
     );
-  }  
+  };
 
   const getData = async () => {
     const searchValue = { user_id };
@@ -128,7 +148,7 @@ const AccountProfile = () => {
       `${API_BASE_URL}myprofile?${queryString}`
     );
     if (responseData?.user) {
-      updateState(responseData)
+      updateState(responseData);
     }
   };
 
@@ -191,28 +211,30 @@ const AccountProfile = () => {
   } = useHttpClient();
 
   const processSaveProfileData = async () => {
-
-    if(formInputData.firstName.trim() === ''){
-       presentToast("middle","First name required");
-       return;
-    }
-    if(formInputData.lastName.trim() === ''){
-      presentToast("middle","Last name required");
+    if (formInputData.firstName.trim() === "") {
+      presentToast("middle", "First name required");
       return;
-   }
-   
-   if(formInputData.phoneNumber === '' || typeof formInputData.phoneNumber ==='undefined'){
-    presentToast("middle","Phone number required");
-    return;
-   }
-   if(formInputData.address.trim() === ''){
-    presentToast("middle","Address required");
-    return;
-   }
-   if(formInputData.zip.trim() === ''){
-    presentToast("middle","Zip required");
-    return;
-   }
+    }
+    if (formInputData.lastName.trim() === "") {
+      presentToast("middle", "Last name required");
+      return;
+    }
+
+    if (
+      formInputData.phoneNumber === "" ||
+      typeof formInputData.phoneNumber === "undefined"
+    ) {
+      presentToast("middle", "Phone number required");
+      return;
+    }
+    if (formInputData.address.trim() === "") {
+      presentToast("middle", "Address required");
+      return;
+    }
+    if (formInputData.zip.trim() === "") {
+      presentToast("middle", "Zip required");
+      return;
+    }
 
     const parse = parsePhoneNumber(formInputData.phoneNumber);
     const { countryCallingCode, nationalNumber } = parse;
@@ -225,9 +247,9 @@ const AccountProfile = () => {
       formData
     );
 
-    if (responseData.success) {
+    if (typeof responseData !== "undefined" && responseData.success) {
       accountDataError();
-      if(responseData.profile){
+      if (responseData.profile) {
         //console.log(responseData.profile);
         updateState(responseData);
       }
@@ -242,9 +264,36 @@ const AccountProfile = () => {
       return { ...prev, ...data };
     });
   };
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0] || null;
+    if (file) {
+      setProfileImagePath(URL.createObjectURL(file));
+      setShowProfilePicUploadLoader(true);
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("user_id", user_id);
+      fetch(`${API_BASE_URL}uploadProfilePic`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if(data?.message){
+            presentToast("middle", data?.message);
+          }
+          setShowProfilePicUploadLoader(false);
+          
+        })
+        .catch((error) => {
+             presentToast("middle", "Profile image upload failed");
+             setShowProfilePicUploadLoader(false);
+        });
+    }else{
+      presentToast("middle", "Profile image upload failed");
+    }
+  };
   return (
     <>
-      
       <IonPage>
         <IonHeader>
           <IonToolbar>
@@ -263,6 +312,36 @@ const AccountProfile = () => {
           {dataLoading && <SkeletonLoader />}
           {!dataLoading && (
             <div className="ion-padding">
+              <div className="inputArea" style={{ marginTop: 5 }}>
+                <img
+                  id="image"
+                  src={profileImagePath}
+                  style={{
+                    borderRadius: "50%",
+                    margin: "auto",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    width: 150,
+                    height: 150,
+                  }}
+                  onClick={() => {
+                    if (imageUploadRef.current) {
+                      imageUploadRef.current.click();
+                    }
+                  }}
+                />
+                
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={imageUploadRef}
+                  id="myfile"
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+              </div>
               <div className="inputArea" style={{ marginTop: 5 }}>
                 <IonLabel>
                   First Name <span style={{ color: "red" }}>*</span>
@@ -361,6 +440,10 @@ const AccountProfile = () => {
               </div>
             </div>
           )}
+          <IonLoading
+            isOpen={showProfilePicUploadLoader}
+            message={"Processing..."}
+          />
         </IonContent>
         <Footer />
       </IonPage>
