@@ -33,7 +33,7 @@ const Footer = () => {
                     message: `
                       Please connect your bank account with us
                     `,
-                    backdropDismiss:false,
+                    backdropDismiss:true,
                     buttons: [
                       {
                         text: "Click here to connect",
