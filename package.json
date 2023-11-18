@@ -16,6 +16,7 @@
     "@capacitor-community/stripe": "^5.2.0",
     "@capacitor/android": "5.4.2",
     "@capacitor/app": "5.0.6",
+    "@capacitor/assets": "^3.0.1",
     "@capacitor/browser": "^5.1.0",
     "@capacitor/core": "5.4.2",
     "@capacitor/haptics": "5.0.6",
